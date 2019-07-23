@@ -1,0 +1,66 @@
+class Character
+{
+  boolean isMurderer;
+  String name;
+  Weapon mWeapon;
+  Room mRoom;
+  Position cPosition; 
+  }
+
+class Weapon
+{
+}
+
+class Board
+{
+ 
+}
+
+class Position
+{
+  int x;
+  int y;
+  1 -- * Board;
+}
+
+class Player
+{
+
+}
+
+class Clue
+{
+}
+
+//$?[End_of_model]$?
+
+class Character
+{
+  position 33 217 159 126;
+  }
+
+class Weapon
+{
+  position 818 215 109 41;
+}
+
+class Board
+{
+  position 565 219 109 41;
+}
+
+class Position
+{
+  position 575 449 109 75;
+  position.association Position__Board 0,16 109,8;
+}
+
+class Player
+{
+  position 326 220 109 41;
+}
+
+class Clue
+{
+  position 398 0 109 41;
+}
