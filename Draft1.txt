@@ -64,3 +64,5 @@ class Clue
 {
   position 398 0 109 41;
 }
+
+// Ethan was here, just testing :)
