@@ -22,7 +22,8 @@
       "Knows position",
       "Knows items",
       "Knows the current turn (Int)",
-      "Knows characters"
+      "Knows characters",
+      "Knows the solution"
     ],
     "collaborators": [
       "Position",
@@ -49,11 +50,16 @@
     "type": 1,
     "responsibilities": [
       "Knows its own character name (String)",
+      "Knows what characters, items, and rooms it has",
       "Knows its current position ",
-      "Knows its previous positions in that turn (Array of positions)"
+      "Knows its previous positions in that turn (Array of positions)",
+      "Knows the actions it can take",
+      "Knows what turn it is"
     ],
     "collaborators": [
-      "Position"
+      "Position",
+      "Game",
+      "Action"
     ]
   },
   {
@@ -67,6 +73,79 @@
     ],
     "collaborators": [
       "Position"
+    ]
+  },
+  {
+    "name": "Action",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Knows what the action is",
+      "Knows which character is taking the action"
+    ],
+    "collaborators": [
+      "Move",
+      "Suggestion",
+      "Refute",
+      "Accusation"
+    ]
+  },
+  {
+    "name": "Move",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Knows the direction of movement (ie. North, South...(String))",
+      "Knows the number of moves (Int)",
+      "Knows which character is moving"
+    ],
+    "collaborators": [
+      "Character"
+    ]
+  },
+  {
+    "name": "Suggestion",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Knows the character making the suggestion",
+      "Knows the room the character is in",
+      "Knows the other character and item being suggested"
+    ],
+    "collaborators": [
+      "Character",
+      "",
+      ""
+    ]
+  },
+  {
+    "name": "Refute",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Knows the items, rooms, and characters that this character has",
+      "Knows the character making the accusation"
+    ],
+    "collaborators": [
+      "Character"
+    ]
+  },
+  {
+    "name": "Accusation",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Knows the other character, room, and item being accused",
+      "Knows the solution"
+    ],
+    "collaborators": [
+      "Character",
+      "Game"
     ]
   }
 ]
