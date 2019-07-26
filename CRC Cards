@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Game",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "knows board",
+      "Knows game status",
+      "Knows the number of players (Int)"
+    ],
+    "collaborators": [
+      "Board"
+    ]
+  },
+  {
+    "name": "Board",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Knows position",
+      "Knows items",
+      "Knows the current turn (Int)",
+      "Knows characters"
+    ],
+    "collaborators": [
+      "Position",
+      "Item",
+      "Character"
+    ]
+  },
+  {
+    "name": "Position",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Knows the type of position (ie. wall, door, starting position...(String))"
+    ],
+    "collaborators": [
+      ""
+    ]
+  },
+  {
+    "name": "Character",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Knows its own character name (String)",
+      "Knows its current position ",
+      "Knows its previous positions in that turn (Array of positions)"
+    ],
+    "collaborators": [
+      "Position"
+    ]
+  },
+  {
+    "name": "Item",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "Knows what the item is (ie. knife, pipe, wrench... (String))",
+      "Knows its position"
+    ],
+    "collaborators": [
+      "Position"
+    ]
+  }
+]
