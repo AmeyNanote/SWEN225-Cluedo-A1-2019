@@ -1,68 +1,126 @@
-class Character
-{
-  boolean isMurderer;
-  String name;
-  Weapon mWeapon;
-  Room mRoom;
-  Position cPosition; 
-  }
-
-class Weapon
-{
+class Game {
+  Board board; // The board that will be played on
+  int gameStatus; // 0 = no game, 1 = setup, 2 = playing
+  int players; // Number of players maybe should be stored here
+  
 }
 
-class Board
-{
- 
+class Board {
+  Position squares[]; // Needs to actually display the board 2D array
+  Character chars[]; // An array of current characters on the board
+  int turn; // Current turn
+  Solution solution; // The pre-choosen solution to who is the murdere
+  
 }
 
-class Position
-{
+class Position {
   int x;
   int y;
+  String type; // This will define doors, walls, hallways, board edges etc.
   1 -- * Board;
+  
 }
 
-class Player
-{
+class Character {
+  String name; // Char name
+  boolean isMurderer; // true or false 
+  Hand cards[]; // These are the cards that are either rooms, chars, or items - read the game rules on the handout
+  Weapon hasWeapon; // Null if not murderer
+  Room currentRoom; // The room the player is in based on their position
+  Action actions[]; // List of actions the player can make ie. move, accuse, etc. 
+  Position playerPos; // Where the player. For example [2. 4] or [24, 11]
+  Position prevPositions[]; // Array of previous position the player was at as to not cross their own path - again in the rules of handout
 
 }
 
-class Clue
-{
+class Hand {
+  Character chars[]; // List of chars the player has
+  Item items[]; // List of items the player has
+  Room rooms[]; // List of rooms the player has
+  
 }
+
+class Item { // Weapons
+  String name; // What the item is, wrench, pipe, etc.
+  Position itemPos; // Where item is on the board
+  
+}
+
+class Room { 
+  Position positions[]; // List of coordinates that specify the rooms position
+  // So if player's pos is in list of room's pos then player must be in that room
+  
+}
+
+class Action {
+  String type; // Action to be made, move, accuse, etc.
+  Character character; // Who is making the action
+  
+}
+
+class Suggestion {
+  Character suggested; // Char being suggested as murderer
+  Item suggestedItem; // Item being suggested as murder weapon
+  Room currentCharacterRoom; // Knows what room the current player making suggestion is in
+}
+
+class Refute {
+  Hand characterDefend; // Character refuting by displayer card from their hand
+  Character accuser; // Who is making the accusation
+  Solution solution; // 
+  
+}
+
+class Accusation {
+  Character accusedChar; // Which player is being accused
+  Room accusedRoom
+    
+}
+
+class Solution {
+  Character murderer; // Who is the murderer
+  Item weapon; // What is the murder item
+  Room murderRoom; // What room did the murder take place
+  
+}
+
+
 
 //$?[End_of_model]$?
 
+class Game
+{
+  position 50 30 109 45;
+}
+
 class Character
 {
-  position 33 217 159 126;
-  }
+  position 318 285 159 147;
+}
 
 class Weapon
 {
-  position 818 215 109 41;
+  position 50 230 109 45;
 }
 
 class Board
 {
-  position 565 219 109 41;
+  position 50 330 109 45;
 }
 
 class Position
 {
-  position 575 449 109 75;
-  position.association Position__Board 0,16 109,8;
+  position 50 430 109 45;
+  position.association Board__Position 30,0 19,79;
 }
 
 class Player
 {
-  position 326 220 109 41;
+  position 250 30 109 45;
 }
 
 class Clue
 {
-  position 398 0 109 41;
+  position 250 130 109 45;
 }
-
 // Ethan was here, just testing :)
