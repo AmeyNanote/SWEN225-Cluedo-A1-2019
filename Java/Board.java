@@ -1,5 +1,5 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4597.b7ac3a910 modeling language!*/
+/*This co"DE",was generated using the UMPLE 1.29.1.4597.b7ac3a910 modeling language!*/
 
 
 import java.util.*;
@@ -14,35 +14,86 @@ public class Board
   //------------------------
 
   //Board Attributes
-  private List<Position> squares;
   private List<Character> chars;
   private int turn;
   private Solution solution;
 
   //Board Associations
   private Position position;
+  public String[] wholeASCIIboard = new String[600];
+  public String[][] boardASCII = new String[24][25];
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
-  public Board(int aTurn, Solution aSolution, Position aPosition)
+ 
+  // Initialize the board to the standard no player state with a 2D array
+  private List<Position> squares = new ArrayList<Position>();
+  
+  public Board(int aTurn, Solution aSolution)
   {
     squares = new ArrayList<Position>();
     chars = new ArrayList<Character>();
     turn = aTurn;
     solution = aSolution;
-    boolean didAddPosition = setPosition(aPosition);
-    if (!didAddPosition)
-    {
-      throw new RuntimeException("Unable to create board due to position. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+//    boolean didAddPosition = setPosition(aPosition);
+//    if (!didAddPosition)
+//    {
+//      throw new RuntimeException("Unable to create board due to position. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+//    }
+    
+    wholeASCIIboard = new String[]{
+    		 "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "S1", "XX", "XX", "XX", "XX", "S2", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX",
+    		 "ki", "ki", "ki", "ki", "ki", "XX", "XX", "__", "__", "__", "ba", "ba", "ba", "ba", "__", "__", "__", "XX", "co" ,"co" ,"co" ,"co" ,"co" ,"co",
+    		 "ki", "ki", "ki", "ki", "ki", "ki", "__", "__", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "__", "__", "co" ,"co" ,"co" ,"co" ,"co" ,"co",
+    		 "ki", "ki", "ki", "ki", "ki", "ki", "__", "__", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "__", "__", "co" ,"co" ,"co" ,"co" ,"co" ,"co",
+    		 "ki", "ki", "ki", "ki", "ki", "ki", "__", "__", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "__", "__", "DN" ,"co" ,"co" ,"co" ,"co" ,"co",
+    		 "ki", "ki", "ki", "ki", "ki", "ki", "__", "__", "DE", "ba", "ba", "ba", "ba", "ba", "ba", "DW", "__", "__", "__", "co" ,"co" ,"co" ,"XX", "XX",
+    		 "XX", "ki", "ki", "ki", "DN", "ki", "__", "__", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "__", "__", "__", "__", "__", "__", "__", "S3",  
+    		 "__", "__", "__", "__", "__", "__", "__", "__", "ba", "DN", "ba", "ba", "ba", "ba", "DN", "ba", "__", "__", "__", "__", "__", "__", "__", "XX",
+    		 "XX", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "bi" ,"bi" ,"bi" ,"bi" ,"bi" ,"bi",
+    		 "di" ,"di" ,"di" ,"di" ,"di" ,"__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "DE", "bi" ,"bi" ,"bi" ,"bi" ,"bi",
+    		 "di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"__", "__", "ce" ,"ce" ,"ce" ,"ce" ,"ce" ,"__", "__", "__", "bi" ,"bi" ,"bi" ,"bi" ,"bi" ,"bi",
+    		 "di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"__", "__", "ce" ,"ce" ,"ce" ,"ce" ,"ce" ,"__", "__", "__", "bi" ,"bi" ,"bi" ,"bi" ,"bi" ,"bi",
+    		 "di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"DW" ,"__", "__", "ce" ,"ce" ,"ce" ,"ce" ,"ce" ,"__", "__", "__", "bi" ,"bi" ,"bi" ,"bi" ,"DN", "bi",
+    		 "di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"__", "__", "ce" ,"ce" ,"ce" ,"ce" ,"ce" ,"__", "__", "__", "__", "__", "__", "__", "__", "XX",
+    		 "di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"__", "__", "ce" ,"ce" ,"ce" ,"ce" ,"ce" ,"__", "__", "__", "li" ,"li" ,"DS" ,"li" ,"li" ,"XX",
+    		 "di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"DN" ,"di" ,"__", "__", "ce" ,"ce" ,"ce" ,"ce" ,"ce" ,"__", "__", "li" ,"li" ,"li" ,"li" ,"li" ,"li" ,"li",
+    		 "XX", "__", "__", "__", "__", "__", "__", "__", "__", "__", "ce" ,"ce" ,"ce" ,"ce" ,"ce" ,"__", "__", "DE", "li" ,"li" ,"li" ,"li" ,"li" ,"li",
+    		 "S6", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "li" ,"li" ,"li" ,"li" ,"li" ,"li" ,"li",
+    		 "XX", "__", "__", "__", "__", "__", "__", "__", "__", "ha", "ha", "DS", "DS", "ha", "ha", "__", "__", "__", "li" ,"li" ,"li" ,"li" ,"li" ,"XX",
+    		 "XX", "lo", "lo", "lo" ,"lo", "lo" ,"DS", "__", "__", "ha", "ha", "ha", "ha", "ha", "ha", "__", "__", "__", "__", "__", "__", "__", "__", "S4", 
+    		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"__", "__", "ha", "ha", "ha", "ha", "ha", "DW", "__", "__", "__", "__", "__", "__", "__", "__", "XX",
+    		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"__", "__", "ha", "ha", "ha", "ha", "ha", "ha", "__", "__", "DS" ,"st" ,"st" ,"st" ,"st" ,"st" ,"XX",
+    		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"__", "__", "ha", "ha", "ha", "ha", "ha", "ha", "__", "__", "st" ,"st" ,"st" ,"st" ,"st" ,"st" ,"st",
+    		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"__", "__", "ha", "ha", "ha", "ha", "ha", "ha", "__", "__", "st" ,"st" ,"st" ,"st" ,"st" ,"st" ,"st",
+    		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"XX" ,"S5", "XX", "ha", "ha", "ha", "ha", "ha", "ha", "XX", "__", "XX", "st" ,"st" ,"st" ,"st" ,"st" ,"st"};
+    	  
+	  // Filling the 2D array of positions row by row
+	  int wholeASCIIboardIndex = 0;
+	  for (int i = 0; i <= 24; i++) { // The x coordinate
+		  for (int j = 0; j <= 23; j++) { // The y coordinate
+			  Position p = new Position(j, i, wholeASCIIboard[wholeASCIIboardIndex]);
+			  boardASCII[j][i] = wholeASCIIboard[wholeASCIIboardIndex++];
+		  }
+	  }
+  }
+  
+  public void drawBoard() {
+	  for (int i = 0; i < 25; i++) { // The x coordinate
+		  System.out.println("");
+		  //System.out.print(i); // Row number
+		  for (int j = 0; j < 24; j++) { // The y coordinate
+			  System.out.print(boardASCII[j][i] + " ");
+		  }
+	  	  
+	  }
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-  /* Code from template attribute_SetMany */
+  /* Co"DE",from template attribute_SetMany */
   public boolean addSquare(Position aSquare)
   {
     boolean wasAdded = false;
@@ -56,7 +107,7 @@ public class Board
     wasRemoved = squares.remove(aSquare);
     return wasRemoved;
   }
-  /* Code from template attribute_SetMany */
+  /* Co"DE",from template attribute_SetMany */
   public boolean addChar(Character aChar)
   {
     boolean wasAdded = false;
@@ -86,7 +137,7 @@ public class Board
     wasSet = true;
     return wasSet;
   }
-  /* Code from template attribute_GetMany */
+  /* Co"DE",from template attribute_GetMany */
   public Position getSquare(int index)
   {
     Position aSquare = squares.get(index);
@@ -116,7 +167,7 @@ public class Board
     int index = squares.indexOf(aSquare);
     return index;
   }
-  /* Code from template attribute_GetMany */
+  /* Co"DE",from template attribute_GetMany */
   public Character getChar(int index)
   {
     Character aChar = chars.get(index);
@@ -162,12 +213,12 @@ public class Board
   {
     return solution;
   }
-  /* Code from template association_GetOne */
+  /* Co"DE",from template association_GetOne */
   public Position getPosition()
   {
     return position;
   }
-  /* Code from template association_SetOneToMany */
+  /* Code ,from template association_SetOneToMany */
   public boolean setPosition(Position aPosition)
   {
     boolean wasSet = false;
