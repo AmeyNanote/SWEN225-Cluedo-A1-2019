@@ -14,20 +14,26 @@ public class Room
 
   //Room Attributes
   private List<Position> positions;
+  private String roomType;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Room()
+  public Room(String type)
   {
     positions = new ArrayList<Position>();
+    roomType = type;
   }
 
   //------------------------
-  // INTERFACE
+  // INTERFACEString
   //------------------------
   /* Code from template attribute_SetMany */
+  public String getName() {
+	  return roomType;
+  }
+
   public boolean addPosition(Position aPosition)
   {
     boolean wasAdded = false;

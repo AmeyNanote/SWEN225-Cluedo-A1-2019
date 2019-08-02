@@ -116,7 +116,7 @@ public class Position
   /* Code from template association_AddManyToOne */
   public Board addBoard(int aTurn, Solution aSolution)
   {
-    return new Board(aTurn, aSolution, this);
+    return new Board(aTurn, aSolution);
   }
 
   public boolean addBoard(Board aBoard)
@@ -150,7 +150,7 @@ public class Position
   }
   /* Code from template association_AddIndexControlFunctions */
   public boolean addBoardAt(Board aBoard, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addBoard(aBoard))
     {
@@ -173,8 +173,8 @@ public class Position
       boards.remove(aBoard);
       boards.add(index, aBoard);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addBoardAt(aBoard, index);
     }
