@@ -33,7 +33,7 @@ public class Clue {
     Clue cInstance = new Clue();
     cInstance.startClue();
     cInstance.playMaker().toString();
-    cInstance.assignSolution();
+    //cInstance.assignSolution();
   }
 
   //------------------------
@@ -70,6 +70,7 @@ public class Clue {
 
   }
 
+/** 	
   public void assignSolution() {
 	  System.out.println("Creating Cluedo Solution... ");
 	  int randomChar = (int) (Math.random() * 6);
@@ -91,6 +92,7 @@ public class Clue {
 
   }
 
+**/
 
   // Makes a new Player and adds it to an arraylist. Here we can return the arrayList.
   public ArrayList<Player> playMaker(){
