@@ -105,8 +105,11 @@ public class Clue {
       }
     }
 
+    Position initialPosition[] = {new Position(7, 24, "MS"), new Position(0, 17, "CM"), new Position(9, 0, "MW"), new Position(0, 14, "MG"), new Position(23, 5, "MP"), new Position(23, 19, "PP")};
     for(int i=0; i<playerCount+1; i++){
       Player newPlayer = new Player(playerAssigns.keySet().toString(), playerAssigns.values().toString(), false, false, false, null);
+      
+      Character newCharacter = new Character(characters[i], false, null, initialPosition[i]);
       playerInstances.add(newPlayer);
     }
 
