@@ -75,7 +75,7 @@ public class Clue {
 
     // This loop creates each player instance and assigns it a character so player 1 is always Scarlette and 2 Colonel Mustard etc.
     // Players no longer get to pick there names, not important basic game function
-    Position initialPosition[] = {new Position(7, 24, "MS"), new Position(0, 17, "CM"), new Position(9, 0, "MW"), new Position(14, 0, "MG"), new Position(23, 5, "MP"), new Position(23, 19, "PP")};
+    Position initialPosition[] = {new Position(7, 24, "MS"), new Position(0, 17, "CM"), new Position(9, 0, "MW"), new Position(14, 0, "MG"), new Position(23, 6, "MP"), new Position(23, 19, "PP")};
     for(int i = 1; i < playerCount + 1; i++){
 		Player newPlayer = new Player((String) characters.get(i - 1), false, false, initialPosition[i - 1]);
 		players.add(newPlayer);
@@ -155,7 +155,6 @@ public class Clue {
 	  int currentTurn = 1;
 	  
 	  while (true) {
-		
 		  board.updateBoard(players);
 		  System.out.println("Turn: " + currentTurn);
 	
@@ -164,12 +163,12 @@ public class Clue {
 			  Player p = players.get(s);
 			  if (!p.getIsOut()) {
 				  int moves = p.getDiceRoll();
-				  System.out.println("Player " + (players.indexOf(p) + 1) + " " + p.getPos().getType() + " has rolled a " + moves);
+				  System.out.println("Player " + (s + 1) + " " + p.getPos().getType() + " has rolled a " + moves);
 			  
 				  innerloop:
 				  for (int m = 0; m < moves; m++) {
 					  ArrayList<String> availableMoves = (ArrayList) p.getActions(board);
-					  System.out.println("You have " + (moves - m) + " left");
+					  System.out.println("You have " + (moves - m) + " moves left");
 					  System.out.println("Which action do you want to take? " + availableMoves);
 					  String action = userIn.next();
 		
@@ -206,17 +205,110 @@ public class Clue {
 						  board.updateBoard(players);
 						  p.setRoom(board);
 					  }
+					  
+					  else if (action.equals("Suggest")) {
+						  System.out.println();
+						  System.out.println("Currently in room " + rooms.get(abrRooms.indexOf(p.getRoom())));
+						  ArrayList<String> tempSuggestChars = new ArrayList<String>(characters);
+						  ArrayList<String> tempSuggestItems = new ArrayList<String>(items);
+						  
+						// Potential Weapons to suggest
+						  for (Item i: p.getHand().getItems()) {
+							  if (items.contains(i.getName())){
+								  tempSuggestItems.remove(i.getName());
+							  }
+						  }
+						  
+						  // Potential People to suggest, including your own character
+						  // This method removes the cards in your hand
+						  for (Character c: p.getHand().getChars()) {
+							  if (characters.contains(c.getName())){
+								  tempSuggestChars.remove(c.getName());
+							  }
+						  }
+						  
+						  System.out.println("Who would you like to suggest?");
+						  System.out.println(tempSuggestChars);
+						  String suggested = readString();
+		
+						  while (!characters.contains(suggested)) {
+							  System.out.println("Please pick a valid name. Try again");
+							  suggested = readString();
+						  }
+						  System.out.println();
+						  
+						  System.out.println("What weapon did the murderer use?");
+						  System.out.println(tempSuggestItems);
+						  String weapon = readString();
+		
+						  while (!items.contains(weapon)) {
+							  System.out.println("Please pick a valid weapon. Try again");
+							  weapon = readString();
+						  }
+						  System.out.println();
+						  
+						  ArrayList<String> refutes = new ArrayList<String>();
+						  
+						  int refutingPlayer = s + 1;
+						  for (int j = 0; j < players.size() - 1; j++) {
+							  Player np;
+							  
+							  if (refutingPlayer> players.size() - 1) {
+								  refutingPlayer = 0;
+							  }
+							  np = players.get(refutingPlayer);
+
+							  
+							  if (!p.equals(np)) {
+								  refutes.clear();
+								  
+								  for (Character ch: np.getHand().getChars()) {
+									  if (ch.getName().equals(suggested)){
+										  refutes.add(suggested);
+									  }
+								  }
+								  for (Item itm: np.getHand().getItems()) {
+									  if (itm.getName().equals(weapon)) {
+										  refutes.add(weapon);
+									  }
+								  }
+								  for (Room rm: np.getHand().getRooms()) {
+									  if (rm.getName().equals(rooms.get(abrRooms.indexOf(p.getRoom())))){
+										  refutes.add(rooms.get(abrRooms.indexOf(p.getRoom())));
+									  }
+								  }
+								  
+								  if (!refutes.isEmpty()) {
+									  System.out.println("Player " + (refutingPlayer + 1) + " can refute with the following cards:");
+									  System.out.println(refutes);
+									  System.out.println("Please pick a refute"); 
+									  String refuting = readString();
+									  
+									  while (!refutes.contains(refuting)) {
+										  System.out.println("Invalid Refute, try again");
+										  refuting = readString();
+									  }
+									  
+									  System.out.println("Player " + (refutingPlayer + 1) + " has refuted with " + refuting);
+									  System.out.println();
+									  
+								  }
+								  refutingPlayer++;
+							  }
+						  }
+						  m = moves;
+					  }
 		
 					  else if (action.equals("Accuse")) {
 						  System.out.println();
 						  System.out.println("Currently in room " + rooms.get(abrRooms.indexOf(p.getRoom())));
-						  ArrayList<String> tempChars = new ArrayList<String>(characters);
-						  ArrayList<String> tempItems = new ArrayList<String>(items);
+						  ArrayList<String> tempAccuseChars = new ArrayList<String>(characters);
+						  ArrayList<String> tempAccuseItems = new ArrayList<String>(items);
 						  
 						// Potential Weapons to accuse
 						  for (Item i: p.getHand().getItems()) {
 							  if (items.contains(i.getName())){
-								  tempItems.remove(i.getName());
+								  tempAccuseItems.remove(i.getName());
 							  }
 						  }
 						  
@@ -224,12 +316,12 @@ public class Clue {
 						  // This method removes the cards in your hand
 						  for (Character c: p.getHand().getChars()) {
 							  if (characters.contains(c.getName())){
-								  tempChars.remove(c.getName());
+								  tempAccuseChars.remove(c.getName());
 							  }
 						  }
 						  
 						  System.out.println("Who would you like to accuse?");
-						  System.out.println(tempChars);
+						  System.out.println(tempAccuseChars);
 						  String accused = readString();
 		
 						  while (!characters.contains(accused)) {
@@ -239,7 +331,7 @@ public class Clue {
 						  System.out.println();
 						  
 						  System.out.println("What weapon did the murderer use?");
-						  System.out.println(tempItems);
+						  System.out.println(tempAccuseItems);
 						  String weapon = readString();
 		
 						  while (!items.contains(weapon)) {
@@ -260,7 +352,7 @@ public class Clue {
 							  System.out.println("You were wrong, the solution is: " + solution.toString());
 							  System.out.println("You have now been removed form the game, thank you for playing");
 							  p.setIsOut(true);
-							  break innerloop;
+							  m = moves;
 						  }
 					  }
 				  }
