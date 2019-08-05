@@ -149,126 +149,126 @@ public class Clue {
 	  return solution;
   }
 
-  public void playerTurns() {
+  public Player playerTurns() {
 	  Scanner userIn = new Scanner(System.in);
-	  boolean endGame = false;
 	  
 	  int currentTurn = 1;
 	  
-	  outerloop:
-	  while (!endGame) {
+	  while (true) {
 		
 		  board.updateBoard(players);
 		  System.out.println("Turn: " + currentTurn);
 	
-		  innerloop:
+		 
 		  for (int s = 0; s < players.size(); s++) {
 			  Player p = players.get(s);
-			  int moves = p.getDiceRoll();
-			  System.out.println("Player " + (players.indexOf(p) + 1) + " " + p.getPos().getType() + " has rolled a " + moves);
-	
-			  for (int m = 0; m < moves; m++) {
-				  ArrayList<String> availableMoves = (ArrayList) p.getActions(board);
-				  System.out.println("You have " + (moves - m) + " left");
-				  System.out.println("Which action do you want to take? " + availableMoves);
-				  String action = userIn.next();
-	
-	
-				  // Player ends turn this was an assumption if the player does not want to do anything else
-				  if (action.equals("End")) {
-					  break;
-				  }
-	
-				  else if (!availableMoves.contains(action)) {
-					  System.out.println("Invalid move type");
-					  m--;
-				  }
-				  else if (action.equals("North")){
-					  p.getPos().setY(p.getPos().getY() - 1);
-					  board.updateBoard(players);
-					  p.setRoom(board);
-	
-				  }
-				  else if (action.equals("South")){
-					  p.getPos().setY(p.getPos().getY() + 1);
-					  board.updateBoard(players);
-					  p.setRoom(board);
-	
-				  }
-				  else if (action.equals("East")){
-					  p.getPos().setX(p.getPos().getX() + 1);
-					  board.updateBoard(players);
-					  p.setRoom(board);
-	
-				  }
-				  else if (action.equals("West")){
-					  p.getPos().setX(p.getPos().getX() - 1);
-					  board.updateBoard(players);
-					  p.setRoom(board);
-				  }
-	
-				  else if (action.equals("Accuse")) {
-					  System.out.println();
-					  System.out.println("Currently in room " + rooms.get(abrRooms.indexOf(p.getRoom())));
-					  ArrayList<String> tempChars = characters;
-					  ArrayList<String> tempItems = items;
-					  
-					// Potential Weapons to accuse
-					  for (Item i: p.getHand().getItems()) {
-						  if (items.contains(i.getName())){
-							  tempItems.remove(i.getName());
+			  if (!p.getIsOut()) {
+				  int moves = p.getDiceRoll();
+				  System.out.println("Player " + (players.indexOf(p) + 1) + " " + p.getPos().getType() + " has rolled a " + moves);
+			  
+				  innerloop:
+				  for (int m = 0; m < moves; m++) {
+					  ArrayList<String> availableMoves = (ArrayList) p.getActions(board);
+					  System.out.println("You have " + (moves - m) + " left");
+					  System.out.println("Which action do you want to take? " + availableMoves);
+					  String action = userIn.next();
+		
+		
+					  // Player ends turn this was an assumption if the player does not want to do anything else
+					  if (action.equals("End")) {
+						  break;
+					  }
+		
+					  else if (!availableMoves.contains(action)) {
+						  System.out.println("Invalid move type");
+						  m--;
+					  }
+					  else if (action.equals("North")){
+						  p.getPos().setY(p.getPos().getY() - 1);
+						  board.updateBoard(players);
+						  p.setRoom(board);
+		
+					  }
+					  else if (action.equals("South")){
+						  p.getPos().setY(p.getPos().getY() + 1);
+						  board.updateBoard(players);
+						  p.setRoom(board);
+		
+					  }
+					  else if (action.equals("East")){
+						  p.getPos().setX(p.getPos().getX() + 1);
+						  board.updateBoard(players);
+						  p.setRoom(board);
+		
+					  }
+					  else if (action.equals("West")){
+						  p.getPos().setX(p.getPos().getX() - 1);
+						  board.updateBoard(players);
+						  p.setRoom(board);
+					  }
+		
+					  else if (action.equals("Accuse")) {
+						  System.out.println();
+						  System.out.println("Currently in room " + rooms.get(abrRooms.indexOf(p.getRoom())));
+						  ArrayList<String> tempChars = new ArrayList<String>(characters);
+						  ArrayList<String> tempItems = new ArrayList<String>(items);
+						  
+						// Potential Weapons to accuse
+						  for (Item i: p.getHand().getItems()) {
+							  if (items.contains(i.getName())){
+								  tempItems.remove(i.getName());
+							  }
 						  }
-					  }
-	
-					  // Potential People to accuse, including your own character
-					  // This method removes the cards in your hand
-					  for (Character c: p.getHand().getChars()) {
-						  if (characters.contains(c.getName())){
-							  tempChars.remove(c.getName());
+						  
+						  // Potential People to accuse, including your own character
+						  // This method removes the cards in your hand
+						  for (Character c: p.getHand().getChars()) {
+							  if (characters.contains(c.getName())){
+								  tempChars.remove(c.getName());
+							  }
 						  }
-					  }
-					  
-					  System.out.println("Who would you like to accuse?");
-					  System.out.println(tempChars);
-					  String accused = readString();
-	
-					  while (!characters.contains(accused)) {
-						  System.out.println("Please pick a valid name. Try again");
-						  accused = readString();
-					  }
-					  System.out.println();
-					  
-					  System.out.println("What weapon did the murderer use?");
-					  System.out.println(tempItems);
-					  String weapon = readString();
-	
-					  while (!items.contains(weapon)) {
-						  System.out.println("Please pick a valid weapon. Try again");
-						  weapon = readString();
-					  }
-					  System.out.println();
-					  
-					  
-					  if (solution.getMurderer().getName().equals(accused) 
-						  && solution.getMurderRoom().getName().equals(p.getRoom())
-						  && solution.getWeapon().getName().equals(weapon)){
-						  System.out.println("You are correct, the solution is: " + solution.toString());	
-						  System.out.println("The game is now over");
-						  endGame = true;
-						  break outerloop;
-					  }
-					  else {
-						  System.out.println("You were wrong, the solution is: " + solution.toString());
-						  System.out.println("You have now been removed form the game, thank you for playing");
-						  p.setIsOut(true);
-						  break innerloop;
+						  
+						  System.out.println("Who would you like to accuse?");
+						  System.out.println(tempChars);
+						  String accused = readString();
+		
+						  while (!characters.contains(accused)) {
+							  System.out.println("Please pick a valid name. Try again");
+							  accused = readString();
+						  }
+						  System.out.println();
+						  
+						  System.out.println("What weapon did the murderer use?");
+						  System.out.println(tempItems);
+						  String weapon = readString();
+		
+						  while (!items.contains(weapon)) {
+							  System.out.println("Please pick a valid weapon. Try again");
+							  weapon = readString();
+						  }
+						  System.out.println();
+						  
+						  
+						  if (solution.getMurderer().getName().equals(accused) 
+							  && solution.getMurderRoom().getName().equals(rooms.get(abrRooms.indexOf(p.getRoom())))
+							  && solution.getWeapon().getName().equals(weapon)){
+							  System.out.println("You are correct, the solution is: " + solution.toString());	
+							  System.out.println("The game is now over");
+							  return p;
+						  }
+						  else {
+							  System.out.println("You were wrong, the solution is: " + solution.toString());
+							  System.out.println("You have now been removed form the game, thank you for playing");
+							  p.setIsOut(true);
+							  break innerloop;
+						  }
 					  }
 				  }
 			  }
 			  
 		  }
 
-		  
+		  currentTurn++;
 	  }
 	  
 	  
