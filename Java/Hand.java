@@ -81,10 +81,9 @@ public class Hand
     return aChar;
   }
 
-  public Character[] getChars()
+  public List<Character> getChars()
   {
-    Character[] newChars = chars.toArray(new Character[chars.size()]);
-    return newChars;
+    return (ArrayList<Character>) chars;
   }
 
   public int numberOfChars()
@@ -111,10 +110,9 @@ public class Hand
     return aItem;
   }
 
-  public Item[] getItems()
+  public List<Item> getItems()
   {
-    Item[] newItems = items.toArray(new Item[items.size()]);
-    return newItems;
+    return items;
   }
 
   public int numberOfItems()
@@ -141,10 +139,9 @@ public class Hand
     return aRoom;
   }
 
-  public Room[] getRooms()
+  public List<Room> getRooms()
   {
-    Room[] newRooms = rooms.toArray(new Room[rooms.size()]);
-    return newRooms;
+    return rooms;
   }
 
   public int numberOfRooms()

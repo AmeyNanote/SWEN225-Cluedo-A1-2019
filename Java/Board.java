@@ -22,6 +22,7 @@ public class Board
   private Position position;
   public String[] wholeASCIIboard = new String[600];
   public String[][] boardASCII = new String[24][25];
+  public ArrayList<Position> boardPositions = new ArrayList<Position>();
 
   //------------------------
   // CONSTRUCTOR
@@ -30,12 +31,10 @@ public class Board
   // Initialize the board to the standard no player state with a 2D array
   private List<Position> squares = new ArrayList<Position>();
   
-  public Board(int aTurn, Solution aSolution)
+  public Board()
   {
     squares = new ArrayList<Position>();
     chars = new ArrayList<Character>();
-    turn = aTurn;
-    solution = aSolution;
 //    boolean didAddPosition = setPosition(aPosition);
 //    if (!didAddPosition)
 //    {
@@ -43,13 +42,13 @@ public class Board
 //    }
     
     wholeASCIIboard = new String[]{
-    		 "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "S1", "XX", "XX", "XX", "XX", "S2", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX",
+    		 "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "MW", "XX", "XX", "XX", "XX", "MG", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX",
     		 "ki", "ki", "ki", "ki", "ki", "XX", "XX", "__", "__", "__", "ba", "ba", "ba", "ba", "__", "__", "__", "XX", "co" ,"co" ,"co" ,"co" ,"co" ,"co",
     		 "ki", "ki", "ki", "ki", "ki", "ki", "__", "__", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "__", "__", "co" ,"co" ,"co" ,"co" ,"co" ,"co",
     		 "ki", "ki", "ki", "ki", "ki", "ki", "__", "__", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "__", "__", "co" ,"co" ,"co" ,"co" ,"co" ,"co",
     		 "ki", "ki", "ki", "ki", "ki", "ki", "__", "__", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "__", "__", "DN" ,"co" ,"co" ,"co" ,"co" ,"co",
     		 "ki", "ki", "ki", "ki", "ki", "ki", "__", "__", "DE", "ba", "ba", "ba", "ba", "ba", "ba", "DW", "__", "__", "__", "co" ,"co" ,"co" ,"XX", "XX",
-    		 "XX", "ki", "ki", "ki", "DN", "ki", "__", "__", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "__", "__", "__", "__", "__", "__", "__", "S3",  
+    		 "XX", "ki", "ki", "ki", "DN", "ki", "__", "__", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "ba", "__", "__", "__", "__", "__", "__", "__", "MP",  
     		 "__", "__", "__", "__", "__", "__", "__", "__", "ba", "DN", "ba", "ba", "ba", "ba", "DN", "ba", "__", "__", "__", "__", "__", "__", "__", "XX",
     		 "XX", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "bi" ,"bi" ,"bi" ,"bi" ,"bi" ,"bi",
     		 "di" ,"di" ,"di" ,"di" ,"di" ,"__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "DE", "bi" ,"bi" ,"bi" ,"bi" ,"bi",
@@ -60,20 +59,21 @@ public class Board
     		 "di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"__", "__", "ce" ,"ce" ,"ce" ,"ce" ,"ce" ,"__", "__", "__", "li" ,"li" ,"DS" ,"li" ,"li" ,"XX",
     		 "di" ,"di" ,"di" ,"di" ,"di" ,"di" ,"DN" ,"di" ,"__", "__", "ce" ,"ce" ,"ce" ,"ce" ,"ce" ,"__", "__", "li" ,"li" ,"li" ,"li" ,"li" ,"li" ,"li",
     		 "XX", "__", "__", "__", "__", "__", "__", "__", "__", "__", "ce" ,"ce" ,"ce" ,"ce" ,"ce" ,"__", "__", "DE", "li" ,"li" ,"li" ,"li" ,"li" ,"li",
-    		 "S6", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "li" ,"li" ,"li" ,"li" ,"li" ,"li" ,"li",
+    		 "CM", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "__", "li" ,"li" ,"li" ,"li" ,"li" ,"li" ,"li",
     		 "XX", "__", "__", "__", "__", "__", "__", "__", "__", "ha", "ha", "DS", "DS", "ha", "ha", "__", "__", "__", "li" ,"li" ,"li" ,"li" ,"li" ,"XX",
-    		 "XX", "lo", "lo", "lo" ,"lo", "lo" ,"DS", "__", "__", "ha", "ha", "ha", "ha", "ha", "ha", "__", "__", "__", "__", "__", "__", "__", "__", "S4", 
+    		 "XX", "lo", "lo", "lo" ,"lo", "lo" ,"DS", "__", "__", "ha", "ha", "ha", "ha", "ha", "ha", "__", "__", "__", "__", "__", "__", "__", "__", "PP", 
     		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"__", "__", "ha", "ha", "ha", "ha", "ha", "DW", "__", "__", "__", "__", "__", "__", "__", "__", "XX",
     		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"__", "__", "ha", "ha", "ha", "ha", "ha", "ha", "__", "__", "DS" ,"st" ,"st" ,"st" ,"st" ,"st" ,"XX",
     		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"__", "__", "ha", "ha", "ha", "ha", "ha", "ha", "__", "__", "st" ,"st" ,"st" ,"st" ,"st" ,"st" ,"st",
     		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"__", "__", "ha", "ha", "ha", "ha", "ha", "ha", "__", "__", "st" ,"st" ,"st" ,"st" ,"st" ,"st" ,"st",
-    		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"XX" ,"S5", "XX", "ha", "ha", "ha", "ha", "ha", "ha", "XX", "__", "XX", "st" ,"st" ,"st" ,"st" ,"st" ,"st"};
+    		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"XX" ,"MS", "XX", "ha", "ha", "ha", "ha", "ha", "ha", "XX", "__", "XX", "st" ,"st" ,"st" ,"st" ,"st" ,"st"};
     	  
 	  // Filling the 2D array of positions row by row
 	  int wholeASCIIboardIndex = 0;
 	  for (int i = 0; i <= 24; i++) { // The x coordinate
 		  for (int j = 0; j <= 23; j++) { // The y coordinate
 			  Position p = new Position(j, i, wholeASCIIboard[wholeASCIIboardIndex]);
+			  boardPositions.add(p);
 			  boardASCII[j][i] = wholeASCIIboard[wholeASCIIboardIndex++];
 		  }
 	  }
@@ -88,6 +88,19 @@ public class Board
 		  }
 	  	  
 	  }
+	  System.out.println();
+  }
+  
+  public void updateBoard(List<Player> players) {
+	  for (Position o: boardPositions) {
+		  boardASCII[o.getX()][o.getY()] = o.getType();
+	  }
+	  
+	  for (Player p: players) {
+		  boardASCII[p.getPos().getX()][ p.getPos().getY()] =  p.getPos().getType();
+	  }
+	  
+	  drawBoard();
   }
 
   //------------------------

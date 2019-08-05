@@ -16,6 +16,7 @@ public class Position
   //Position Attributes
   private int x;
   private int y;
+  private String characterString;
   private String type;
 
   //Position Associations
@@ -116,7 +117,7 @@ public class Position
   /* Code from template association_AddManyToOne */
   public Board addBoard(int aTurn, Solution aSolution)
   {
-    return new Board(aTurn, aSolution);
+    return new Board();
   }
 
   public boolean addBoard(Board aBoard)

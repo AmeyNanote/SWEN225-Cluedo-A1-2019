@@ -68,8 +68,6 @@ public class Item
 
   public String toString()
   {
-    return super.toString() + "["+
-            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "itemPos" + "=" + (getItemPos() != null ? !getItemPos().equals(this)  ? getItemPos().toString().replaceAll("  ","    ") : "this" : "null");
+    return getName();
   }
 }

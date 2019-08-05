@@ -84,6 +84,6 @@ public class Room
 
   public String toString()
   {
-    return super.toString() + "["+ "]";
+    return getName();
   }
 }

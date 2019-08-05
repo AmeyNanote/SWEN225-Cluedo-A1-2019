@@ -16,7 +16,6 @@ public class Character {
   private String name;
   private boolean isMurderer;
   private List<Hand> cards;
-  private Weapon hasWeapon;
   private Room currentRoom;
   private List<Action> actions;
   private Position playerPos;
@@ -28,27 +27,25 @@ public class Character {
   // CONSTRUCTOR
   //------------------------
 
-  public Character(String aName, boolean aIsMurderer, Weapon aHasWeapon, Room aCurrentRoom, Position aPlayerPos) {
+  public Character(String aName, Room aCurrentRoom, Position aPlayerPos) {
     name = aName;
-    isMurderer = aIsMurderer;
     cards = new ArrayList<Hand>();
-    hasWeapon = aHasWeapon;
     currentRoom = aCurrentRoom;
     actions = new ArrayList<Action>();
     playerPos = aPlayerPos;
     prevPositions = new ArrayList<Position>();
   }
 
-  private String isMurderer(){
-    String murderer;
-    Random generator = new Random();
-    Object[] values = clueUser.playerAssigns.values().toArray();
-    murderer = (String) values[generator.nextInt(values.length)];
-    return murderer;
-  }
-  public boolean aIsMurderer(){
-
-  }
+//  private String isMurderer(){
+//    String murderer;
+//    Random generator = new Random();
+//    Object[] values = clueUser.playerAssigns.values().toArray();
+//    murderer = (String) values[generator.nextInt(values.length)];
+//    return murderer;
+//  }
+//  public boolean aIsMurderer(){
+//
+//  }
 
 
 
@@ -64,13 +61,6 @@ public class Character {
     return wasSet;
   }
 
-  public boolean setIsMurderer(boolean aIsMurderer)
-  {
-    boolean wasSet = false;
-    isMurderer = aIsMurderer;
-    wasSet = true;
-    return wasSet;
-  }
   /* Code from template attribute_SetMany */
   public boolean addCard(Hand aCard)
   {
@@ -84,14 +74,6 @@ public class Character {
     boolean wasRemoved = false;
     wasRemoved = cards.remove(aCard);
     return wasRemoved;
-  }
-
-  public boolean setHasWeapon(Weapon aHasWeapon)
-  {
-    boolean wasSet = false;
-    hasWeapon = aHasWeapon;
-    wasSet = true;
-    return wasSet;
   }
 
   public boolean setCurrentRoom(Room aCurrentRoom)
@@ -185,14 +167,6 @@ public class Character {
   }
 
   /**
-   * Null if not murderer
-   */
-  public Weapon getHasWeapon()
-  {
-    return hasWeapon;
-  }
-
-  /**
    * The room the player is in based on their position
    */
   public Room getCurrentRoom()
@@ -274,11 +248,6 @@ public class Character {
 
   public String toString()
   {
-    return super.toString() + "["+
-            "name" + ":" + getName()+ "," +
-            "isMurderer" + ":" + getIsMurderer()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "hasWeapon" + "=" + (getHasWeapon() != null ? !getHasWeapon().equals(this)  ? getHasWeapon().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "currentRoom" + "=" + (getCurrentRoom() != null ? !getCurrentRoom().equals(this)  ? getCurrentRoom().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "playerPos" + "=" + (getPlayerPos() != null ? !getPlayerPos().equals(this)  ? getPlayerPos().toString().replaceAll("  ","    ") : "this" : "null");
+    return getName();
   }
 }
