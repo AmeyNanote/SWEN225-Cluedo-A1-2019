@@ -85,9 +85,6 @@ public class Solution
 
   public String toString()
   {
-    return super.toString() + "["+
-            "murderer" + ":" + getMurderer()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "weapon" + "=" + (getWeapon() != null ? !getWeapon().equals(this)  ? getWeapon().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "murderRoom" + "=" + (getMurderRoom() != null ? !getMurderRoom().equals(this)  ? getMurderRoom().toString().replaceAll("  ","    ") : "this" : "null");
+    return this.getMurderer().getName() + " in the " + this.getMurderRoom().getName() + " with the " + this.getWeapon();
   }
 }
