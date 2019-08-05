@@ -65,7 +65,7 @@ public class Board
     		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"XX" ,"__", "__", "XX", "ha", "ha", "ha", "ha", "ha", "__", "__", "__", "__", "__", "__", "__", "__", "XX",
     		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"XX" ,"__", "__", "XX", "ha", "ha", "ha", "ha", "XX", "__", "__", "XX" ,"st" ,"XX" ,"XX" ,"XX" ,"XX" ,"XX",
     		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"XX" ,"__", "__", "XX", "ha", "ha", "ha", "ha", "XX", "__", "__", "XX" ,"st" ,"st" ,"st" ,"st" ,"st" ,"st",
-    		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"__", "__", "XX", "ha", "ha", "ha", "ha", "XX", "__", "__", "XX" ,"st" ,"st" ,"st" ,"st" ,"st" ,"st",
+    		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"XX" ,"__", "__", "XX", "ha", "ha", "ha", "ha", "XX", "__", "__", "XX" ,"st" ,"st" ,"st" ,"st" ,"st" ,"st",
     		 "lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"lo" ,"XX" ,"S1", "XX", "XX", "ha", "ha", "ha", "ha", "XX", "XX", "__", "XX", "st" ,"st" ,"st" ,"st" ,"st" ,"st"};
 
 	  // Filling the 2D array of positions row by row

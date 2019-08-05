@@ -22,6 +22,7 @@ public class Player {
   private boolean isOut;
 
   private ArrayList<String> actions = new ArrayList<String>();
+  public ArrayList<String> invalidSquares = new ArrayList<String>(Arrays.asList("MS", "CM", "MW", "PP", "XX", "MP", "MG"));
   public ArrayList<String> abrRooms = new ArrayList<String>(Arrays.asList("ki", "ba", "co", "bi", "li", "st", "ha", "lo", "di"));
   private ArrayList<String> items = new ArrayList<String>(Arrays.asList("Candlestick", "Dagger", "Lead Pipe", "Revolver", "Rope", "Spanner"));
   private ArrayList<String> rooms = new ArrayList<String>(Arrays.asList("Kitchen", "Ball Room", "Conseratory", "Billard Room", "Library", "Study", "Hall", "Lounge", "Dining Room"));
@@ -51,19 +52,19 @@ public class Player {
   public List<String> getActions(Board b) {
 	  actions.clear();
 
-	  if (this.getPos().getX() - 1 > 0 && !b.boardASCII[this.getPos().getX() - 1][this.getPos().getY()].equals("XX")) {
+	  if (this.getPos().getX() - 1 > 0 && !invalidSquares.contains(b.boardASCII[this.getPos().getX() - 1][this.getPos().getY()])) {
 		  actions.add("West");
 	  }
 
-	  if (this.getPos().getX() + 1 < 24 && !b.boardASCII[this.getPos().getX() + 1][this.getPos().getY()].equals("XX")) {
+	  if (this.getPos().getX() + 1 < 24 && !invalidSquares.contains(b.boardASCII[this.getPos().getX() + 1][this.getPos().getY()])) {
 		  actions.add("East");
 	  }
 
-	  if (this.getPos().getY() - 1 > 0 && !b.boardASCII[this.getPos().getX()][this.getPos().getY() - 1].equals("XX")) {
+	  if (this.getPos().getY() - 1 > 0 && !invalidSquares.contains(b.boardASCII[this.getPos().getX()][this.getPos().getY() - 1])) {
 		  actions.add("North");
 	  }
 
-	  if (this.getPos().getY() + 1 < 25 && !b.boardASCII[this.getPos().getX()][this.getPos().getY() + 1].equals("XX")) {
+	  if (this.getPos().getY() + 1 < 25 && !invalidSquares.contains(b.boardASCII[this.getPos().getX()][this.getPos().getY() + 1])) {
 		  actions.add("South");
 	  }
 	  if (abrRooms.contains(this.getRoom())) {
