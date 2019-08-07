@@ -13,7 +13,6 @@ public class Room
   //------------------------
 
   //Room Attributes
-  private List<Position> positions;
   private String roomType;
 
   //------------------------
@@ -22,7 +21,6 @@ public class Room
 
   public Room(String type)
   {
-    positions = new ArrayList<Position>();
     roomType = type;
   }
 
@@ -33,54 +31,6 @@ public class Room
   public String getName() {
 	  return roomType;
   }
-
-  public boolean addPosition(Position aPosition)
-  {
-    boolean wasAdded = false;
-    wasAdded = positions.add(aPosition);
-    return wasAdded;
-  }
-
-  public boolean removePosition(Position aPosition)
-  {
-    boolean wasRemoved = false;
-    wasRemoved = positions.remove(aPosition);
-    return wasRemoved;
-  }
-  /* Code from template attribute_GetMany */
-  public Position getPosition(int index)
-  {
-    Position aPosition = positions.get(index);
-    return aPosition;
-  }
-
-  public Position[] getPositions()
-  {
-    Position[] newPositions = positions.toArray(new Position[positions.size()]);
-    return newPositions;
-  }
-
-  public int numberOfPositions()
-  {
-    int number = positions.size();
-    return number;
-  }
-
-  public boolean hasPositions()
-  {
-    boolean has = positions.size() > 0;
-    return has;
-  }
-
-  public int indexOfPosition(Position aPosition)
-  {
-    int index = positions.indexOf(aPosition);
-    return index;
-  }
-
-  public void delete()
-  {}
-
 
   public String toString()
   {

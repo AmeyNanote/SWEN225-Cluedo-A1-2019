@@ -66,7 +66,7 @@ public class Clue {
     // Players no longer get to pick there names, not important basic game function
     Position initialPosition[] = {new Position(7, 24, "MS"), new Position(0, 17, "CM"), new Position(9, 0, "MW"), new Position(14, 0, "MG"), new Position(23, 6, "MP"), new Position(23, 19, "PP")};
     for(int i = 1; i < playerCount + 1; i++){
-		Player newPlayer = new Player((String) characters.get(i - 1), false, false, initialPosition[i - 1]);
+		Player newPlayer = new Player((String) characters.get(i - 1), initialPosition[i - 1]);
 		players.add(newPlayer);
 		System.out.println("Player " + i + " is " + characters.get(i - 1));
     }
@@ -118,10 +118,10 @@ public class Clue {
   public Solution assignSolution() {
 	  System.out.println("Creating Cluedo Solution... ");
 	  int randomChar = (int) (Math.random() * 6);
-	  Character character = new Character(characters.get(randomChar), null, null);
+	  Character character = new Character(characters.get(randomChar));
 
 	  int randomItem = (int) (Math.random() * 6);
-	  Item item = new Item(items.get(randomItem), new Position(0, 0, "IT"));
+	  Item item = new Item(items.get(randomItem));
 
 	  int randomRoom = (int) (Math.random() * 9);
 	  Room room = new Room(rooms.get(randomRoom));
@@ -139,6 +139,8 @@ public class Clue {
 	  Scanner userIn = new Scanner(System.in);
 
 	  int currentTurn = 1;
+
+	  boolean endGame = true;
 
 	  while (true) {
 		  board.updateBoard(players);
@@ -251,6 +253,7 @@ public class Clue {
 						  int refutingPlayer = s + 1;
 						  for (int j = 0; j < players.size() - 1; j++) {
 							  Player np;
+							  System.out.println(refutingPlayer);
 
 							  if (refutingPlayer> players.size() - 1) {
 								  refutingPlayer = 0;
@@ -353,7 +356,32 @@ public class Clue {
 						  else {
 							  System.out.println("You were wrong, the solution is: " + solution.toString());
 							  System.out.println("You have now been removed form the game, thank you for playing");
+							  System.out.println("Please do not tell anyone the solution");
+
+							  // Removes player from the board so they dont interfear with play
+							  for (Position pos: board.boardPositions) {
+								  if (p.getPos().getX() == pos.getX() && p.getPos().getY() == pos.getY()) {
+									  p.getPos().setType(p.getRoom());
+								  }
+							  }
+
+							  board.updateBoard(players);
+							  System.out.println();
 							  p.setIsOut(true);
+
+
+							  // Check if they are the last player and then end the game if everyone is out
+							  for (Player player: players) {
+								 endGame = true;
+								 if (!player.getIsOut()) {
+									 endGame = false;
+								 }
+							  }
+
+							  if (!endGame) {
+								  System.out.println("The game has ended, there are no winners");
+								  return p;
+							  }
 							  m = moves;
 						  }
 					  }
@@ -364,9 +392,6 @@ public class Clue {
 
 		  currentTurn++;
 	  }
-
-
-
   }
 
   public String readString()

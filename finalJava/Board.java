@@ -7,13 +7,7 @@ public class Board
   // MEMBER VARIABLES
   //------------------------
 
-  //Board Attributes
-  private List<Character> chars;
-  private int turn;
-  private Solution solution;
-
   //Board Associations
-  private Position position;
   public String[] wholeASCIIboard = new String[600];
   public String[][] boardASCII = new String[24][25];
   public ArrayList<Position> boardPositions = new ArrayList<Position>();
@@ -23,13 +17,8 @@ public class Board
   //------------------------
 
   // Initialize the board to the standard no player state with a 2D array
-  private List<Position> squares = new ArrayList<Position>();
-
   public Board()
   {
-    squares = new ArrayList<Position>();
-    chars = new ArrayList<Character>();
-
     wholeASCIIboard = new String[]{
     		 "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "S3", "XX", "XX", "XX", "XX", "S4", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX", "XX",
     		 "ki", "ki", "ki", "ki", "ki", "XX", "XX", "__", "__", "__", "XX", "ba", "ba", "XX", "__", "__", "__", "XX", "co" ,"co" ,"co" ,"co" ,"co" ,"co",
@@ -92,152 +81,5 @@ public class Board
 	  drawBoard();
   }
 
-  //------------------------
-  // INTERFACE
-  //------------------------
-  /* Co"DE",from template attribute_SetMany */
-  public boolean addSquare(Position aSquare)
-  {
-    boolean wasAdded = false;
-    wasAdded = squares.add(aSquare);
-    return wasAdded;
-  }
-
-  public boolean removeSquare(Position aSquare)
-  {
-    boolean wasRemoved = false;
-    wasRemoved = squares.remove(aSquare);
-    return wasRemoved;
-  }
-  /* Co"DE",from template attribute_SetMany */
-  public boolean addChar(Character aChar)
-  {
-    boolean wasAdded = false;
-    wasAdded = chars.add(aChar);
-    return wasAdded;
-  }
-
-  public boolean removeChar(Character aChar)
-  {
-    boolean wasRemoved = false;
-    wasRemoved = chars.remove(aChar);
-    return wasRemoved;
-  }
-
-  public boolean setTurn(int aTurn)
-  {
-    boolean wasSet = false;
-    turn = aTurn;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setSolution(Solution aSolution)
-  {
-    boolean wasSet = false;
-    solution = aSolution;
-    wasSet = true;
-    return wasSet;
-  }
-  /* Co"DE",from template attribute_GetMany */
-  public Position getSquare(int index)
-  {
-    Position aSquare = squares.get(index);
-    return aSquare;
-  }
-
-  public Position[] getSquares()
-  {
-    Position[] newSquares = squares.toArray(new Position[squares.size()]);
-    return newSquares;
-  }
-
-  public int numberOfSquares()
-  {
-    int number = squares.size();
-    return number;
-  }
-
-  public boolean hasSquares()
-  {
-    boolean has = squares.size() > 0;
-    return has;
-  }
-
-  public int indexOfSquare(Position aSquare)
-  {
-    int index = squares.indexOf(aSquare);
-    return index;
-  }
-  /* Co"DE",from template attribute_GetMany */
-  public Character getChar(int index)
-  {
-    Character aChar = chars.get(index);
-    return aChar;
-  }
-
-  public Character[] getChars()
-  {
-    Character[] newChars = chars.toArray(new Character[chars.size()]);
-    return newChars;
-  }
-
-  public int numberOfChars()
-  {
-    int number = chars.size();
-    return number;
-  }
-
-  public boolean hasChars()
-  {
-    boolean has = chars.size() > 0;
-    return has;
-  }
-
-  public int indexOfChar(Character aChar)
-  {
-    int index = chars.indexOf(aChar);
-    return index;
-  }
-
-  /**
-   * Current turn
-   */
-  public int getTurn()
-  {
-    return turn;
-  }
-
-  /**
-   * The pre-choosen solution to who is the murdere
-   */
-  public Solution getSolution()
-  {
-    return solution;
-  }
-  /* Co"DE",from template association_GetOne */
-  public Position getPosition()
-  {
-    return position;
-  }
-  /* Code ,from template association_SetOneToMany */
-  public boolean setPosition(Position aPosition)
-  {
-    boolean wasSet = false;
-    if (aPosition == null)
-    {
-      return wasSet;
-    }
-
-    Position existingPosition = position;
-    position = aPosition;
-    if (existingPosition != null && !existingPosition.equals(aPosition))
-    {
-      existingPosition.removeBoard(this);
-    }
-    position.addBoard(this);
-    wasSet = true;
-    return wasSet;
-  }
 
 }

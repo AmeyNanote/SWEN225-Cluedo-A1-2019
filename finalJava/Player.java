@@ -16,8 +16,6 @@ public class Player {
   public Hand hand = new Hand();
   private int diceRoll;
   private String currentRoom;
-  private boolean isTurn;
-  private boolean isWinner;
   private Position position;
   private boolean isOut;
 
@@ -32,11 +30,9 @@ public class Player {
   // CONSTRUCTOR
   //------------------------
 
-  public Player(String assignedChar, boolean isTurn, boolean isWinner, Position pos){
+  public Player(String assignedChar, Position pos){
 	 this.position = pos;
      this.assignedChar = assignedChar;
-     this.isTurn = isTurn;
-     this.isWinner = isWinner;
      this.isOut = false;
 
   }
@@ -84,11 +80,11 @@ public class Player {
 		  }
 	  }
   }
-  
+
   public void setIsOut(boolean b) {
 	  isOut = b;
   }
-  
+
   public boolean getIsOut() {
 	  return isOut;
   }
@@ -107,12 +103,7 @@ public class Player {
   public void setAssignedChar(String assignedChar) {
         this.assignedChar = assignedChar;
   }
-  public void setTurn(boolean isTurn){
-      this.isTurn = isTurn;
-  }
-  public void setWinner(boolean isWinner){
-      this.isWinner = isWinner;
-  }
+
   public Position getPos() {
 	  return position;
   }
@@ -125,11 +116,11 @@ public class Player {
   {
     boolean wasAdded = false;
     if (characters.contains(card)) {
-    	Character character = new Character(card, null, null);
+    	Character character = new Character(card);
         wasAdded = hand.addChar(character);
     }
     else if (items.contains(card)) {
-    	Item item = new Item(card, null);
+    	Item item = new Item(card);
     	wasAdded = hand.addItem(item);
     }
     else if (rooms.contains(card)) {

@@ -13,16 +13,14 @@ public class Item
 
   //Item Attributes
   private String name;
-  private Position itemPos;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Item(String aName, Position aItemPos)
+  public Item(String aName )
   {
     name = aName;
-    itemPos = aItemPos;
   }
 
   //------------------------
@@ -37,13 +35,6 @@ public class Item
     return wasSet;
   }
 
-  public boolean setItemPos(Position aItemPos)
-  {
-    boolean wasSet = false;
-    itemPos = aItemPos;
-    wasSet = true;
-    return wasSet;
-  }
 
   /**
    * Weapons
@@ -53,18 +44,6 @@ public class Item
   {
     return name;
   }
-
-  /**
-   * Where item is on the board
-   */
-  public Position getItemPos()
-  {
-    return itemPos;
-  }
-
-  public void delete()
-  {}
-
 
   public String toString()
   {
