@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.*;
 
 import javax.swing.JButton;
@@ -53,18 +54,36 @@ public class Board
 	  int wholeASCIIboardIndex = 0;
 	  for (int i = 0; i <= 24; i++) { // The x coordinate
 		  for (int j = 0; j <= 23; j++) { // The y coordinate
-			  Position p = new Position(j, i, wholeASCIIboard[wholeASCIIboardIndex]);
+			  Position p = new Position(j, i, wholeASCIIboard[wholeASCIIboardIndex++]);
 			  boardPositions.add(p);
 
 		  }
 	  }
+
 	  wholeASCIIboardIndex = 0;
 	  for (int t = 0; t < 600; t++) {
-		  JButton b = new JButton(wholeASCIIboard[wholeASCIIboardIndex]);
-		  boardButtons[t] = b;
-		  if (wholeASCIIboard[wholeASCIIboardIndex].equals("XX")) {
+		  JButton b;
 
+		  String sym = wholeASCIIboard[wholeASCIIboardIndex];
+		  if (sym.equals("__") || sym.equals("XX")) {
+			  b = new JButton("");
 		  }
+		  else {
+			  b = new JButton(sym);
+		  }
+
+		  boardButtons[t] = b;
+
+		  if (sym.equals("XX")) {
+			  b.setBackground(Color.BLACK);
+		  }
+		  else if (sym.equals("__")) {
+			  b.setBackground(Color.LIGHT_GRAY);
+		  }
+		  else{
+			  b.setBackground(new Color(128, 55, 55));
+		  }
+		  b.setSize(20,20);
 		  wholeASCIIboardIndex++;
 	  }
 
@@ -89,10 +108,18 @@ public class Board
   public void updateBoard(List<Player> players) {
 	  for (Position o: boardPositions) {
 		  boardASCII[o.getX()][o.getY()] = o.getType();
+		  if (!o.getType().equals("__") && !o.getType().equals("XX")) {
+			  int arrayPosition = (o.getY() * 24) + o.getX();
+			  boardButtons[arrayPosition].setText(o.getType());
+		  }
 	  }
 
 	  for (Player p: players) {
 		  boardASCII[p.getPos().getX()][ p.getPos().getY()] =  p.getPos().getType();
+		  int arrayPosition = (p.getPos().getY() * 24) + p.getPos().getX();
+
+		  boardButtons[arrayPosition].setText(p.getPos().getType());
+		  boardButtons[arrayPosition].setBackground(p.getColor());
 	  }
 
 	  drawBoard();

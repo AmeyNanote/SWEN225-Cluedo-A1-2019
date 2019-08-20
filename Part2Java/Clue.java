@@ -18,6 +18,7 @@ public class Clue {
 
   public Solution solution;
   public ArrayList<Player> players = new ArrayList<Player>();
+  public ArrayList<Color> playerColors = new ArrayList<Color>(Arrays.asList(Color.red, Color.yellow, Color.white, Color.green, Color.blue, Color.magenta));
   public ArrayList<String> abrRooms = new ArrayList<String>(Arrays.asList("ki", "ba", "co", "bi", "li", "st", "ha", "lo", "di"));
   public ArrayList<String> items = new ArrayList<String>(Arrays.asList("Candlestick", "Dagger", "Lead Pipe", "Revolver", "Rope", "Spanner"));
   public ArrayList<String> rooms = new ArrayList<String>(Arrays.asList("Kitchen", "Ball Room", "Conseratory", "Billard Room", "Library", "Study", "Hall", "Lounge", "Dining Room"));
@@ -65,7 +66,7 @@ public class Clue {
 
 	Position initialPosition[] = {new Position(7, 24, "MS"), new Position(0, 17, "CM"), new Position(9, 0, "MW"), new Position(14, 0, "MG"), new Position(23, 6, "MP"), new Position(23, 19, "PP")};
     for(int i = 1; i < playerCount + 1; i++){
-		Player newPlayer = new Player((String) characters.get(i - 1), initialPosition[i - 1]);
+		Player newPlayer = new Player((String) characters.get(i - 1), initialPosition[i - 1], playerColors.get(i - 1));
 		players.add(newPlayer);
 		System.out.println("Player " + i + " is " + characters.get(i - 1));
     }

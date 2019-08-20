@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +19,7 @@ public class Player {
   private String currentRoom;
   private Position position;
   private boolean isOut;
+  private Color playerColor;
 
   private ArrayList<String> actions = new ArrayList<String>();
   public ArrayList<String> invalidSquares = new ArrayList<String>(Arrays.asList("MS", "CM", "MW", "PP", "XX", "MP", "MG"));
@@ -30,10 +32,11 @@ public class Player {
   // CONSTRUCTOR
   //------------------------
 
-  public Player(String assignedChar, Position pos){
+  public Player(String assignedChar, Position pos, Color col){
 	 this.position = pos;
      this.assignedChar = assignedChar;
      this.isOut = false;
+     this.playerColor = col;
 
   }
 
@@ -110,6 +113,10 @@ public class Player {
 
   public void setPos(Position newPos) {
 	  position = newPos;
+  }
+
+  public Color getColor() {
+	  return playerColor;
   }
 
   public boolean addCard(String card)
