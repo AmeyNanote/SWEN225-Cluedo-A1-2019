@@ -77,9 +77,27 @@ public class Hand
     return rooms;
   }
 
+  public ArrayList<String> handDisplay(){
+	  ArrayList<String> tempList = new ArrayList<String>();
+	  String name = null;
+	  for(Room rBoys: rooms) {
+		  name = rBoys.getName();
+		  tempList.add(name);
+	  }
+	  for(Character cBoys: chars) {
+		  name = cBoys.getName();
+		  tempList.add(name);
+	  }
+	  for(Item itemBoys : items) {
+		  name = itemBoys.getName();
+		  tempList.add(name);
+	  }
+	  return tempList;
+  }
+
 
   public String toString()
   {
-    return super.toString() + "["+ "]";
+	return handDisplay().toString();
   }
 }

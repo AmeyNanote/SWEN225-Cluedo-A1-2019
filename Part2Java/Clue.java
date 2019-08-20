@@ -18,7 +18,7 @@ public class Clue {
 
   public Solution solution;
   public ArrayList<Player> players = new ArrayList<Player>();
-  public ArrayList<Color> playerColors = new ArrayList<Color>(Arrays.asList(Color.red, Color.yellow, Color.white, Color.green, Color.blue, Color.magenta));
+  public ArrayList<Color> playerColors = new ArrayList<Color>(Arrays.asList(Color.red.brighter(), Color.yellow, Color.white, Color.green, Color.cyan, Color.magenta));
   public ArrayList<String> abrRooms = new ArrayList<String>(Arrays.asList("ki", "ba", "co", "bi", "li", "st", "ha", "lo", "di"));
   public ArrayList<String> items = new ArrayList<String>(Arrays.asList("Candlestick", "Dagger", "Lead Pipe", "Revolver", "Rope", "Spanner"));
   public ArrayList<String> rooms = new ArrayList<String>(Arrays.asList("Kitchen", "Ball Room", "Conseratory", "Billard Room", "Library", "Study", "Hall", "Lounge", "Dining Room"));
@@ -61,7 +61,7 @@ public class Clue {
     // This loop creates each player instance and assigns it a character so player 1 is always Scarlette and 2 Colonel Mustard etc.
     // Players no longer get to pick there names, not important basic game function
     while (playerCount < 3 || playerCount > 6) {
-    	playerCount = gui.a.getPlayerCount();
+    	playerCount = gui.gameSetup.getPlayerCount();
     }
 
 	Position initialPosition[] = {new Position(7, 24, "MS"), new Position(0, 17, "CM"), new Position(9, 0, "MW"), new Position(14, 0, "MG"), new Position(23, 6, "MP"), new Position(23, 19, "PP")};
@@ -137,15 +137,12 @@ public class Clue {
 
   public Player playerTurns() {
 	  Scanner userIn = new Scanner(System.in);
-	  gui.playGUI(board.getButtons());
-	  gui.displayGUI();
 
 	  int currentTurn = 1;
 
 	  boolean endGame = true;
 
 	  while (true) {
-		  board.updateBoard(players);
 		  System.out.println("Turn: " + currentTurn);
 
 
@@ -162,11 +159,15 @@ public class Clue {
 				  System.out.println();
 
 				  int moves = p.getDiceRoll();
+				  gui.playGUI(board.getButtons(), currentTurn, p, board);
+				  gui.displayGUI();
 				  System.out.println("Player " + (s + 1) + " " + p.getPos().getType() + " has rolled a " + moves);
 
 				  innerloop: // was used to break out of moves when player accuses or suggests
 				  // For each move the player can make an action
 				  for (int m = 0; m < moves; m++) {
+
+
 					  ArrayList<String> availableMoves = (ArrayList) p.getActions(board);
 					  System.out.println("You have " + (moves - m) + " moves left");
 					  System.out.println("Which action do you want to take? " + availableMoves);
@@ -184,29 +185,29 @@ public class Clue {
 					  }
 					  else if (action.equals("North")){
 						  p.getPos().setY(p.getPos().getY() - 1);
-						  board.updateBoard(players);
+						  board.updateBoard(p);
 						  p.setRoom(board);
-
 					  }
 					  else if (action.equals("South")){
 						  p.getPos().setY(p.getPos().getY() + 1);
-						  board.updateBoard(players);
+						  board.updateBoard(p);
 						  p.setRoom(board);
 
 					  }
 					  else if (action.equals("East")){
 						  p.getPos().setX(p.getPos().getX() + 1);
-						  board.updateBoard(players);
+						  board.updateBoard(p);
 						  p.setRoom(board);
 
 					  }
 					  else if (action.equals("West")){
 						  p.getPos().setX(p.getPos().getX() - 1);
-						  board.updateBoard(players);
+						  board.updateBoard(p);
 						  p.setRoom(board);
 					  }
-
-					  else if (action.equals("Suggest")) {
+//					  board.updateBoard(players);
+//					  p.setRoom(board);
+					  if (action.equals("Suggest")) {
 						  System.out.println();
 						  System.out.println("Currently in room " + rooms.get(abrRooms.indexOf(p.getRoom())));
 						  ArrayList<String> tempSuggestChars = new ArrayList<String>(characters);
@@ -367,7 +368,7 @@ public class Clue {
 								  }
 							  }
 
-							  board.updateBoard(players);
+							  board.updateBoard(p);
 							  System.out.println();
 							  p.setIsOut(true);
 

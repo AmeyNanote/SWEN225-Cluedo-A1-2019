@@ -105,22 +105,29 @@ public class Board
 	  System.out.println();
   }
 
-  public void updateBoard(List<Player> players) {
+  public void updateBoard(Player p) {
 	  for (Position o: boardPositions) {
 		  boardASCII[o.getX()][o.getY()] = o.getType();
+		  int arrayPosition = (o.getY() * 24) + o.getX();
 		  if (!o.getType().equals("__") && !o.getType().equals("XX")) {
-			  int arrayPosition = (o.getY() * 24) + o.getX();
 			  boardButtons[arrayPosition].setText(o.getType());
+			  boardButtons[arrayPosition].setBackground(new Color(128, 55, 55));
 		  }
+		  else if (o.getType().equals("XX")){
+			  boardButtons[arrayPosition].setBackground(Color.BLACK);
+		  }
+		  else {
+			  boardButtons[arrayPosition].setText("");
+			  boardButtons[arrayPosition].setBackground(Color.LIGHT_GRAY);
+		  }
+
 	  }
 
-	  for (Player p: players) {
-		  boardASCII[p.getPos().getX()][ p.getPos().getY()] =  p.getPos().getType();
-		  int arrayPosition = (p.getPos().getY() * 24) + p.getPos().getX();
+	  boardASCII[p.getPos().getX()][ p.getPos().getY()] =  p.getPos().getType();
+	  int arrayPosition = (p.getPos().getY() * 24) + p.getPos().getX();
 
-		  boardButtons[arrayPosition].setText(p.getPos().getType());
-		  boardButtons[arrayPosition].setBackground(p.getColor());
-	  }
+	  boardButtons[arrayPosition].setText(p.getPos().getType());
+	  boardButtons[arrayPosition].setBackground(p.getColor());
 
 	  drawBoard();
   }
