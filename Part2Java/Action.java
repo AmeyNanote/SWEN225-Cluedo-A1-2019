@@ -56,23 +56,23 @@ public class Action implements ActionListener{
 		else if (a.equals("hand")) {
 			JOptionPane.showMessageDialog(null , p.getHand().toString());
 		}
-		else if (a.equals("north")) {
+		else if (a.equals("north") && p.getActions(b).contains("North")) {
 			p.getPos().setY(p.getPos().getY() - 1);
 			  b.updateBoard(p);
 			  p.setRoom(b);
 			System.out.println("postions changed");
 		}
-		else if(a.equals("south")) {
+		else if(a.equals("south") && p.getActions(b).contains("South")) {
 			p.getPos().setY(p.getPos().getY() + 1);
 			  b.updateBoard(p);
 			  p.setRoom(b);
 		}
-		else if(a.equals("east")) {
+		else if(a.equals("east") && p.getActions(b).contains("East")) {
 			 p.getPos().setX(p.getPos().getX() + 1);
 			  b.updateBoard(p);
 			  p.setRoom(b);
 		}
-		else if(a.equals("west")) {
+		else if(a.equals("west") && p.getActions(b).contains("West")) {
 			p.getPos().setX(p.getPos().getX() - 1);
 			  b.updateBoard(p);
 			  p.setRoom(b);
