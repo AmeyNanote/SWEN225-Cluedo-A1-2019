@@ -1,4 +1,6 @@
 
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.List;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -6,6 +8,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class Clue {
   public int playerCount;
@@ -17,6 +23,7 @@ public class Clue {
   public ArrayList<String> rooms = new ArrayList<String>(Arrays.asList("Kitchen", "Ball Room", "Conseratory", "Billard Room", "Library", "Study", "Hall", "Lounge", "Dining Room"));
   public ArrayList<String> characters = new ArrayList<String>(Arrays.asList("Miss Scarlett", "Colonel Mustard", "Mrs. White", "Mr. Green", "Mrs. Peacock", "Professor Plum"));
   public Board board = new Board();
+  public GUI gui = new GUI();
 
   //------------------------
   // CONSTRUCTOR
@@ -33,6 +40,7 @@ public class Clue {
     cInstance.assignPlayerHands();
     //cInstance.playMaker().toString();
     cInstance.playerTurns();
+
   }
 
   //------------------------
@@ -45,26 +53,17 @@ public class Clue {
    * there are no such rules which say that the players have to be randmly assigned
    * Players are being assigned.
    */
-  private void startClue(){
-    System.out.println("Welcome to the Cluedo game!");
-    System.out.println("How many players?");
-
-    ArrayList<String> noPlayers = new ArrayList<String>(Arrays.asList("3", "4", "5", "6"));
-
-    Scanner userIn = new Scanner(System.in);
-	String playerCountInput = userIn.next();
-
-	// This loop does not let the setup end until they input acceptable number of players
-    while (!noPlayers.contains(playerCountInput)) {
-        System.out.print("There can only be 3 to 6 players in a game. Try Again!\n");
-    	playerCountInput =  userIn.next();
-    }
-    playerCount = noPlayers.indexOf(playerCountInput) + 3;
-    System.out.println("So " + playerCount + " players in the game...");
+  private void startClue() {
+	gui.setupGUI();
+	gui.displayGUI();
 
     // This loop creates each player instance and assigns it a character so player 1 is always Scarlette and 2 Colonel Mustard etc.
     // Players no longer get to pick there names, not important basic game function
-    Position initialPosition[] = {new Position(7, 24, "MS"), new Position(0, 17, "CM"), new Position(9, 0, "MW"), new Position(14, 0, "MG"), new Position(23, 6, "MP"), new Position(23, 19, "PP")};
+    while (playerCount < 3 || playerCount > 6) {
+    	playerCount = gui.a.getPlayerCount();
+    }
+
+	Position initialPosition[] = {new Position(7, 24, "MS"), new Position(0, 17, "CM"), new Position(9, 0, "MW"), new Position(14, 0, "MG"), new Position(23, 6, "MP"), new Position(23, 19, "PP")};
     for(int i = 1; i < playerCount + 1; i++){
 		Player newPlayer = new Player((String) characters.get(i - 1), initialPosition[i - 1]);
 		players.add(newPlayer);
@@ -137,6 +136,8 @@ public class Clue {
 
   public Player playerTurns() {
 	  Scanner userIn = new Scanner(System.in);
+	  gui.playGUI(board.getButtons());
+	  gui.displayGUI();
 
 	  int currentTurn = 1;
 
