@@ -20,6 +20,9 @@ public class Player {
   private Position position;
   private boolean isOut;
   private Color playerColor;
+  private String targetItem;
+  private String targetCharacter;
+  private int moves;
 
   private ArrayList<String> actions = new ArrayList<String>();
   public ArrayList<String> invalidSquares = new ArrayList<String>(Arrays.asList("MS", "CM", "MW", "PP", "XX", "MP", "MG"));
@@ -95,11 +98,27 @@ public class Player {
   public String getRoom() {
 	  return currentRoom;
   }
+  
+  public String getFullRoom() {
+	  return rooms.get(abrRooms.indexOf((currentRoom)));
+  }
 
   public int getDiceRoll() {
-	  diceRoll =  ((int)(Math.random() * 6 + 1) + (int)(Math.random() * 6 + 1));
 	  return diceRoll;
   }
+  
+  public void setDiceRoll() {
+	  diceRoll =  ((int)(Math.random() * 6 + 1) + (int)(Math.random() * 6 + 1));
+  }
+  
+  public void setMoves(int m) {
+	  moves = m;
+  }
+  
+  public int getMoves() {
+	  return moves;
+  }
+  
   public String getAssignedChar() {
         return assignedChar;
   }
@@ -118,7 +137,48 @@ public class Player {
   public Color getColor() {
 	  return playerColor;
   }
+  
+  public ArrayList<String> getGuessableChars(){
+	  ArrayList<String> tempAccuseItems = new ArrayList<String>(items);
 
+		// Potential Weapons to accuse
+		for (Item i: this.getHand().getItems()) {
+			if (items.contains(i.getName())){
+				tempAccuseItems.remove(i.getName());
+			}
+		}
+		return tempAccuseItems;
+  }
+
+  public ArrayList<String> getGuessableItems(){
+	ArrayList<String> tempAccuseChars = new ArrayList<String>(characters);
+
+	// Potential People to accuse, including your own character
+	for (Character c: this.getHand().getChars()) {
+		if (characters.contains(c.getName())){
+			tempAccuseChars.remove(c.getName());
+		}
+	}
+	return tempAccuseChars;
+	
+  }
+  
+  public void setTargetItem(String i) {
+	  targetItem = i;
+  }
+  
+  public String getTargetItem() {
+	  return targetItem;
+  }
+  
+  public void setTargetChar(String ch) {
+	  targetCharacter = ch;
+  }
+  
+  public String getTargetChar() {
+	  return targetCharacter;
+  }
+  
   public boolean addCard(String card)
   {
     boolean wasAdded = false;
@@ -136,5 +196,6 @@ public class Player {
     }
     return wasAdded;
   }
+  
 
 }

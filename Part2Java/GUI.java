@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 public class GUI extends JFrame{
 
@@ -35,7 +37,7 @@ public class GUI extends JFrame{
 	public GUI() {
 		l = new JLabel("Welcome to our Cluedo game!");
 		f = new JFrame("Cluedo (SWEN225) - Ethan & Amey");
-		f.setSize(600,600);
+		f.setSize(700,700);
 		p = new JPanel();
 		p1 = new JPanel();
 
@@ -52,12 +54,12 @@ public class GUI extends JFrame{
 	}
 
 	public void setupGUI(){
-		gameSetup = new Action("gameSetup", null, null);
+		gameSetup = new Action("gameSetup", null, null, null, null);
 		StartGame = new JButton("Start Game");
 		StartGame.addActionListener(gameSetup);
 
 		ExitGame = new JButton("Exit Game");
-		ExitGame.addActionListener(new Action("exit", null, null));
+		ExitGame.addActionListener(new Action("exit", null, null, null, null));
 		p.add(StartGame);
 		p.add(ExitGame);
 		p1.add(l, BorderLayout.LINE_START);
@@ -70,35 +72,51 @@ public class GUI extends JFrame{
 
 
 		p1.remove(l);
-		p1.add(new JLabel("Turn: " + turn + " --- "));
+		p1.add(new JLabel("Turn: " + turn + " - Player: " + player.getPos().getType()));
+		
 		p1.add(new JButton(""));
+		
 		north = new JButton("North");
-		north.addActionListener(new Action("north", player, board));
+		north.addActionListener(new Action("north", player, board, null, null));
 		p1.add(north);
+		
 		p1.add(new JButton(""));
+		
 		suggest = new JButton("Suggest");
 		p1.add(suggest);
-		p1.add(new JLabel("Die Rolls: " + Integer.toString(player.getDiceRoll()) + " --- "));
+		
+		p1.add(new JLabel("Moves: " + Integer.toString(player.getMoves()) + "/" + Integer.toString(player.getDiceRoll())));
+		
 		west = new JButton("West");
-		west.addActionListener(new Action("west", player, board));
+		west.addActionListener(new Action("west", player, board, null, null));
 		p1.add(west);
+		
 		end = new JButton("End");
 		p1.add(end);
+		
+		
 		east = new JButton("East");
-		east.addActionListener(new Action("east", player, board));
+		east.addActionListener(new Action("east", player, board, null, null));
 		p1.add(east);
+		
 		p1.add(new JButton(""));
-		hand = new JButton("Hand");
-		hand.addActionListener(new Action("hand", player, null));
+		
+		hand = new JButton("Player Hand");
+		hand.addActionListener(new Action("hand", player, null, null, null));
 		p1.add(hand);
+		
 		p1.add(new JButton(""));
+		
 		south = new JButton("South");
-		south.addActionListener(new Action("south", player, board));
+		south.addActionListener(new Action("south", player, board, null, null));
 		p1.add(south);
+		
 		p1.add(new JButton(""));
+		
 		accuse = new JButton("Accuse");
+		accuse.addActionListener(new Action("accuse", player, board, null, null));
 		p1.add(accuse);
-
+		
 
 		p.remove(StartGame);
 		p.remove(ExitGame);
@@ -121,7 +139,7 @@ public class GUI extends JFrame{
 		instances.addSeparator();
 		JMenuItem escape = new JMenuItem("Escape!");
 		instances.add(escape);
-		escape.addActionListener(new Action("exit", null, null));
+		escape.addActionListener(new Action("exit", null, null, null, null));
 	}
 
 }

@@ -16,14 +16,14 @@ import javax.swing.JPanel;
 public class Clue {
   public int playerCount;
 
-  public Solution solution;
+  public static Solution solution;
   public ArrayList<Player> players = new ArrayList<Player>();
   public ArrayList<Color> playerColors = new ArrayList<Color>(Arrays.asList(Color.red.brighter(), Color.yellow, Color.white, Color.green, Color.cyan, Color.magenta));
   public ArrayList<String> abrRooms = new ArrayList<String>(Arrays.asList("ki", "ba", "co", "bi", "li", "st", "ha", "lo", "di"));
   public ArrayList<String> items = new ArrayList<String>(Arrays.asList("Candlestick", "Dagger", "Lead Pipe", "Revolver", "Rope", "Spanner"));
   public ArrayList<String> rooms = new ArrayList<String>(Arrays.asList("Kitchen", "Ball Room", "Conseratory", "Billard Room", "Library", "Study", "Hall", "Lounge", "Dining Room"));
   public ArrayList<String> characters = new ArrayList<String>(Arrays.asList("Miss Scarlett", "Colonel Mustard", "Mrs. White", "Mr. Green", "Mrs. Peacock", "Professor Plum"));
-  public Board board = new Board();
+  public static Board board;
   public GUI gui = new GUI();
 
   //------------------------
@@ -37,6 +37,7 @@ public class Clue {
   public static void main(String[] args){
     Clue cInstance = new Clue();
     cInstance.assignSolution();
+    board = new Board(solution);
     cInstance.startClue();
     cInstance.assignPlayerHands();
     //cInstance.playMaker().toString();
@@ -127,9 +128,9 @@ public class Clue {
 	  Room room = new Room(rooms.get(randomRoom));
 
 	  solution = new Solution(character, item, room);
-//	  System.out.println("The murderer is: " + solution.getMurderer().getName());
-//	  System.out.println("The murder weapon is: " + solution.getWeapon().getName());
-//	  System.out.println("The murder room is: " + solution.getMurderRoom().getName());
+	  System.out.println("The murderer is: " + solution.getMurderer().getName());
+	  System.out.println("The murder weapon is: " + solution.getWeapon().getName());
+	  System.out.println("The murder room is: " + solution.getMurderRoom().getName());
 
 	  System.out.println("Solution done... ");
 	  return solution;
@@ -158,18 +159,18 @@ public class Clue {
 				  System.out.println("Rooms: " + p.getHand().getRooms());
 				  System.out.println();
 
-				  int moves = p.getDiceRoll();
-				  gui.playGUI(board.getButtons(), currentTurn, p, board);
-				  gui.displayGUI();
-				  System.out.println("Player " + (s + 1) + " " + p.getPos().getType() + " has rolled a " + moves);
+				  p.setDiceRoll(); 
+				  p.setMoves(p.getDiceRoll());
 
 				  innerloop: // was used to break out of moves when player accuses or suggests
 				  // For each move the player can make an action
-				  for (int m = 0; m < moves; m++) {
-
+				  gui.playGUI(board.getButtons(), currentTurn, p, board);
+				  gui.displayGUI();
+					  
+				  while (p.getMoves() >= 0) {
+					  System.out.println(p.getMoves());
 
 					  ArrayList<String> availableMoves = (ArrayList) p.getActions(board);
-					  System.out.println("You have " + (moves - m) + " moves left");
 					  System.out.println("Which action do you want to take? " + availableMoves);
 					  String action = userIn.next();
 
@@ -178,35 +179,7 @@ public class Clue {
 					  if (action.equals("End")) {
 						  break;
 					  }
-
-					  else if (!availableMoves.contains(action)) {
-						  System.out.println("Invalid move type");
-						  m--;
-					  }
-					  else if (action.equals("North")){
-						  p.getPos().setY(p.getPos().getY() - 1);
-						  board.updateBoard(p);
-						  p.setRoom(board);
-					  }
-					  else if (action.equals("South")){
-						  p.getPos().setY(p.getPos().getY() + 1);
-						  board.updateBoard(p);
-						  p.setRoom(board);
-
-					  }
-					  else if (action.equals("East")){
-						  p.getPos().setX(p.getPos().getX() + 1);
-						  board.updateBoard(p);
-						  p.setRoom(board);
-
-					  }
-					  else if (action.equals("West")){
-						  p.getPos().setX(p.getPos().getX() - 1);
-						  board.updateBoard(p);
-						  p.setRoom(board);
-					  }
-//					  board.updateBoard(players);
-//					  p.setRoom(board);
+					  
 					  if (action.equals("Suggest")) {
 						  System.out.println();
 						  System.out.println("Currently in room " + rooms.get(abrRooms.indexOf(p.getRoom())));
@@ -304,7 +277,7 @@ public class Clue {
 								  refutingPlayer++;
 							  }
 						  }
-						  m = moves; // Resets the moves so the player cannot keep moving after accusing
+						  p.setMoves(0); // Resets the moves so the player cannot keep moving after accusing
 					  }
 
 					  else if (action.equals("Accuse")) {
@@ -313,7 +286,7 @@ public class Clue {
 						  ArrayList<String> tempAccuseChars = new ArrayList<String>(characters);
 						  ArrayList<String> tempAccuseItems = new ArrayList<String>(items);
 
-						// Potential Weapons to accuse
+						  // Potential Weapons to accuse
 						  for (Item i: p.getHand().getItems()) {
 							  if (items.contains(i.getName())){
 								  tempAccuseItems.remove(i.getName());
@@ -385,7 +358,7 @@ public class Clue {
 								  System.out.println("The game has ended, there are no winners");
 								  return p;
 							  }
-							  m = moves;
+							  p.setMoves(0);
 						  }
 					  }
 				  }
