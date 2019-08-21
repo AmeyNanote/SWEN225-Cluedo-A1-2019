@@ -149,23 +149,16 @@ public class Clue {
 
 		  for (int s = 0; s < players.size(); s++) {
 			  Player p = players.get(s);
-
-
+			  
 			  if (!p.getIsOut()) {
-				  // Print out the players cards
-				  System.out.println(p.getAssignedChar() + " has the following cards: ");
-				  System.out.println("Characters: " + p.getHand().getChars());
-				  System.out.println("Items: " + p.getHand().getItems());
-				  System.out.println("Rooms: " + p.getHand().getRooms());
-				  System.out.println();
-
 				  p.setDiceRoll(); 
 				  p.setMoves(p.getDiceRoll());
+				  
+				  gui.playGUI(board.getButtons(), currentTurn, p, board);
+				  gui.displayGUI();
 
 				  innerloop: // was used to break out of moves when player accuses or suggests
 				  // For each move the player can make an action
-				  gui.playGUI(board.getButtons(), currentTurn, p, board);
-				  gui.displayGUI();
 					  
 				  while (p.getMoves() >= 0) {
 					  System.out.println(p.getMoves());
