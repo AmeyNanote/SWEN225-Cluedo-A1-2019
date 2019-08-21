@@ -1,17 +1,8 @@
 
 import java.awt.Color;
-import java.awt.GridLayout;
-import java.awt.List;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Scanner;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 public class Clue {
 	public int playerCount;
@@ -139,11 +130,11 @@ public class Clue {
 	}
 
 	public Player playerTurns() {
-		Scanner userIn = new Scanner(System.in);
+//		Scanner userIn = new Scanner(System.in);
 
 		int currentTurn = 1;
 
-		boolean endGame = true;
+//		boolean endGame = true;
 
 
 

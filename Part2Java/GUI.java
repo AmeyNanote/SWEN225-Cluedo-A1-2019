@@ -1,20 +1,14 @@
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
-import javax.swing.ButtonGroup;
-import javax.swing.GroupLayout;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 
 public class GUI extends JFrame{
 
@@ -46,6 +40,7 @@ public class GUI extends JFrame{
 	// INTERFACE
 	//------------------------
 
+	@SuppressWarnings("deprecation")
 	public void displayGUI() {
 		f.add(p);
 		f.add(p1, BorderLayout.PAGE_END);

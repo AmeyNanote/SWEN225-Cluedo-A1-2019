@@ -1,12 +1,15 @@
-import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.Color;
+//Need to stop buttons presses while player is suggesting and other text boxes open
+//Are you sure on red exit corner button
+//Hover buttons
+//New game needs to reset
+//Player names only 2 initials
+//Key board binds
+
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -53,6 +56,7 @@ public class Action implements ActionListener{
 	// INTERFACE
 	//------------------------
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (a.equals("exit")) { // Exit action if the user presses exit game
@@ -339,7 +343,8 @@ public class Action implements ActionListener{
 
 					}
 					refutingPlayer++;
-				}
+					
+				}		
 
 				p.setMoves(0);
 				p.actionMade = true;
