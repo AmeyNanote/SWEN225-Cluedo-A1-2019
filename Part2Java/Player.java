@@ -23,6 +23,7 @@ public class Player {
   private String targetItem;
   private String targetCharacter;
   private int moves;
+  public boolean actionMade;
 
   private ArrayList<String> actions = new ArrayList<String>();
   public ArrayList<String> invalidSquares = new ArrayList<String>(Arrays.asList("MS", "CM", "MW", "PP", "XX", "MP", "MG"));
@@ -98,7 +99,7 @@ public class Player {
   public String getRoom() {
 	  return currentRoom;
   }
-  
+
   public String getFullRoom() {
 	  return rooms.get(abrRooms.indexOf((currentRoom)));
   }
@@ -106,19 +107,19 @@ public class Player {
   public int getDiceRoll() {
 	  return diceRoll;
   }
-  
+
   public void setDiceRoll() {
 	  diceRoll =  ((int)(Math.random() * 6 + 1) + (int)(Math.random() * 6 + 1));
   }
-  
+
   public void setMoves(int m) {
 	  moves = m;
   }
-  
+
   public int getMoves() {
 	  return moves;
   }
-  
+
   public String getAssignedChar() {
         return assignedChar;
   }
@@ -137,7 +138,10 @@ public class Player {
   public Color getColor() {
 	  return playerColor;
   }
-  
+  public int getPlayerNum() {
+	  return characters.indexOf(this.getAssignedChar());
+  }
+
   public ArrayList<String> getGuessableChars(){
 	  ArrayList<String> tempAccuseItems = new ArrayList<String>(items);
 
@@ -160,25 +164,25 @@ public class Player {
 		}
 	}
 	return tempAccuseChars;
-	
+
   }
-  
+
   public void setTargetItem(String i) {
 	  targetItem = i;
   }
-  
+
   public String getTargetItem() {
 	  return targetItem;
   }
-  
+
   public void setTargetChar(String ch) {
 	  targetCharacter = ch;
   }
-  
+
   public String getTargetChar() {
 	  return targetCharacter;
   }
-  
+
   public boolean addCard(String card)
   {
     boolean wasAdded = false;
@@ -196,6 +200,6 @@ public class Player {
     }
     return wasAdded;
   }
-  
+
 
 }

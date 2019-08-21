@@ -18,6 +18,7 @@ public class Board
   public JButton[] boardButtons = new JButton[600];
   public ArrayList<Position> boardPositions = new ArrayList<Position>();
   public Solution solution;
+  public List<Player> players;
 
   //------------------------
   // CONSTRUCTOR
@@ -84,15 +85,14 @@ public class Board
 		  else if (sym.equals("__")) {
 			  b.setBackground(Color.LIGHT_GRAY);
 		  }
-		  else{
-			  b.setBackground(new Color(128, 55, 55));
+		  else {
+			  b.setBackground(Color.WHITE);
 		  }
 		  b.setSize(20,20);
 		  wholeASCIIboardIndex++;
 	  }
-	  
-	  solution = s;
 
+	  solution = s;
   }
 
   public JButton[] getButtons() {
@@ -111,13 +111,45 @@ public class Board
 //	  System.out.println();
   }
 
-  public void updateBoard(Player p) {
+  public void updateBoard() {
 	  for (Position o: boardPositions) {
 		  boardASCII[o.getX()][o.getY()] = o.getType();
 		  int arrayPosition = (o.getY() * 24) + o.getX();
 		  if (!o.getType().equals("__") && !o.getType().equals("XX")) {
 			  boardButtons[arrayPosition].setText(o.getType());
-			  boardButtons[arrayPosition].setBackground(new Color(128, 55, 55));
+			  if (o.getType().equals("ki")) {
+				  boardButtons[arrayPosition].setBackground(Color.MAGENTA.darker());
+			  }
+			  else if (o.getType().equals("li")) {
+				  boardButtons[arrayPosition].setBackground(new Color(205, 133, 63));
+			  }
+			  else if (o.getType().equals("lo")) {
+				  boardButtons[arrayPosition].setBackground(Color.PINK.darker());
+			  }
+			  else if (o.getType().equals("ba")) {
+				  boardButtons[arrayPosition].setBackground(Color.PINK);
+			  }
+			  else if (o.getType().equals("bi")) {
+				  boardButtons[arrayPosition].setBackground(Color.GREEN.darker());
+			  }
+			  else if (o.getType().equals("ce")) {
+				  boardButtons[arrayPosition].setBackground(Color.GRAY.darker());
+			  }
+			  else if (o.getType().equals("st")) {
+				  boardButtons[arrayPosition].setBackground(Color.YELLOW.darker());
+			  }
+			  else if (o.getType().equals("di")) {
+				  boardButtons[arrayPosition].setBackground(Color.ORANGE.darker());
+			  }
+			  else if (o.getType().equals("ha")) {
+				  boardButtons[arrayPosition].setBackground(Color.CYAN.darker());
+			  }
+			  else if (o.getType().equals("co")) {
+				  boardButtons[arrayPosition].setBackground(Color.RED.darker());
+			  }
+			  else {
+				  boardButtons[arrayPosition].setBackground(Color.gray);
+			  }
 		  }
 		  else if (o.getType().equals("XX")){
 			  boardButtons[arrayPosition].setBackground(Color.BLACK);
@@ -129,13 +161,25 @@ public class Board
 
 	  }
 
-	  boardASCII[p.getPos().getX()][ p.getPos().getY()] =  p.getPos().getType();
-	  int arrayPosition = (p.getPos().getY() * 24) + p.getPos().getX();
+	  for (Player p: players) {
+		  boardASCII[p.getPos().getX()][ p.getPos().getY()] =  p.getPos().getType();
+		  int arrayPosition = (p.getPos().getY() * 24) + p.getPos().getX();
 
-	  boardButtons[arrayPosition].setText(p.getPos().getType());
-	  boardButtons[arrayPosition].setBackground(p.getColor());
+		  if (p.getIsOut()) {
+			  // Removes player from the board so they dont interfear with play
+			  for (Position pos: this.boardPositions) {
+				  if (p.getPos().getX() == pos.getX() && p.getPos().getY() == pos.getY()) {
+					  p.getPos().setType(p.getRoom());
+					  boardButtons[arrayPosition].setText(p.getRoom());
+				  }
+			  }
+		  }
+		  else {
+			  boardButtons[arrayPosition].setText(p.getPos().getType());
+			  boardButtons[arrayPosition].setBackground(p.getColor());
+		  }
+	  }
 
-	  drawBoard();
   }
 
 
