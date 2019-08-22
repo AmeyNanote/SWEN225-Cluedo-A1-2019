@@ -1,9 +1,3 @@
-//Need to stop buttons presses while player is suggesting and other text boxes open
-//Are you sure on red exit corner button
-//Hover buttons
-//New game needs to reset
-//Player names only 2 initials
-//Key board binds
 
 import java.awt.Component;
 import java.awt.GridLayout;
@@ -13,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
@@ -34,6 +29,7 @@ public class Action implements ActionListener{
 	private Player p; // The current player's actions
 	private Board b; // the current board state
 	private int playerCount;
+	private ArrayList<String> playerNames = new ArrayList<String>();
 	public ButtonGroup b1;
 	public ButtonGroup b2;
 
@@ -62,7 +58,6 @@ public class Action implements ActionListener{
 		if (a.equals("exit")) { // Exit action if the user presses exit game
 			int a = JOptionPane.showConfirmDialog(null, "Are you sure?");
 			if(a == JOptionPane.YES_OPTION){
-				System.exit(0);
 			}
 		}
 
@@ -87,7 +82,18 @@ public class Action implements ActionListener{
 			while (!noPlayers.contains(num)) {
 				num = JOptionPane.showInputDialog(null, "Must be between 3-6!", "Invalid input", JOptionPane.ERROR_MESSAGE);
 			}
+
+			for (int c = 0; c < (noPlayers.indexOf(num) + 3); c++) {
+				String playerName = JOptionPane.showInputDialog(new JFrame(), "Enter name initials for player " + (c + 1));
+				while (playerName == null || playerName.length() < 1 || playerName.contains(" ")) {
+					playerName = JOptionPane.showInputDialog(null, "Please put a name with no spaces", "Invalid input", JOptionPane.ERROR_MESSAGE);
+				}
+				playerNames.add(playerName);
+			}
+
 			playerCount = noPlayers.indexOf(num) + 3;
+
+
 		}
 
 		else if (a.equals("hand")) {
@@ -155,6 +161,7 @@ public class Action implements ActionListener{
 		else if(a.equals("accuse")) {
 			if (p.getActions(b).contains("Accuse")) {
 				JFrame radioFrame = new JFrame("Accusation Options");
+				radioFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				JPanel charRadioPanel = new JPanel();
 				JPanel itemRadioPanel = new JPanel();
 				JPanel optionsPanel = new JPanel();
@@ -178,19 +185,20 @@ public class Action implements ActionListener{
 					itemRadioPanel.add(rb);
 				}
 
-				JButton cancel = new JButton("Cancel");
-				cancel.addActionListener(new Action("close", null, null, null, null));
 
-				JButton acceptAccuse = new JButton("Accuse!");
-				acceptAccuse.addActionListener(new Action("acceptAccuse", p, b, charRadioButtons, itemRadioButtons));
+					JButton cancel = new JButton("Cancel");
+					cancel.addActionListener(new Action("close", null, null, null, null));
 
-				optionsPanel.add(cancel);
-				optionsPanel.add(acceptAccuse);
-				radioFrame.add(charRadioPanel);
-				radioFrame.add(itemRadioPanel);
-				radioFrame.add(optionsPanel);
-				radioFrame.setSize(1000, 150);
-				radioFrame.show();
+					JButton acceptAccuse = new JButton("Accuse!");
+					acceptAccuse.addActionListener(new Action("acceptAccuse", p, b, charRadioButtons, itemRadioButtons));
+
+					optionsPanel.add(cancel);
+					optionsPanel.add(acceptAccuse);
+					radioFrame.add(charRadioPanel);
+					radioFrame.add(itemRadioPanel);
+					radioFrame.add(optionsPanel);
+					radioFrame.setSize(1000, 150);
+					radioFrame.show();
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Must be in a room to accuse", "Invalid action!", JOptionPane.ERROR_MESSAGE);
@@ -200,6 +208,7 @@ public class Action implements ActionListener{
 		else if(a.equals("suggest")) {
 			if (p.getActions(b).contains("Suggest")) {
 				JFrame radioFrame = new JFrame("Suggestion Options");
+				radioFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 				JPanel charRadioPanel = new JPanel();
 				JPanel itemRadioPanel = new JPanel();
 				JPanel optionsPanel = new JPanel();
@@ -319,6 +328,7 @@ public class Action implements ActionListener{
 					if (!refutes.isEmpty()) {
 
 						JFrame radioFrame = new JFrame("Refute Options");
+						radioFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 						JPanel refuteRadioPanel = new JPanel();
 						JPanel optionPanel = new JPanel();
 						radioFrame.setLayout(new GridLayout(2, 1));
@@ -343,8 +353,8 @@ public class Action implements ActionListener{
 
 					}
 					refutingPlayer++;
-					
-				}		
+
+				}
 
 				p.setMoves(0);
 				p.actionMade = true;
@@ -357,6 +367,13 @@ public class Action implements ActionListener{
 			JOptionPane.showMessageDialog(null, "Player " + (p.getPlayerNum() + 1) + " has refuted with " + getSelectedButton(b1));
 			Window win1 = SwingUtilities.getWindowAncestor((Component) e.getSource());
 			win1.dispose();
+		}
+
+		else if (a.contentEquals("newGame")) {
+			int a = JOptionPane.showConfirmDialog(null, "Are you sure you want to start a new game?");
+			if(a == JOptionPane.YES_OPTION){
+				b.setRestart(true);
+			}
 		}
 	}
 
@@ -374,6 +391,9 @@ public class Action implements ActionListener{
 
 	public Integer getPlayerCount() {
 		return playerCount;
+	}
+	public List<String> getPlayerNames() {
+		return playerNames;
 	}
 
 }

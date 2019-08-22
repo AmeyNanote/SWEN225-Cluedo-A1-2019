@@ -17,6 +17,7 @@ public class Board
   public JButton[] boardButtons = new JButton[600];
   public ArrayList<Position> boardPositions = new ArrayList<Position>();
   public Solution solution;
+  private boolean restart = false;
   public List<Player> players;
 
   //------------------------
@@ -98,16 +99,12 @@ public class Board
 	  return boardButtons;
   }
 
-  public void drawBoard() {
-//	  for (int i = 0; i < 25; i++) { // The x coordinate
-//		  System.out.println("");
-		  //System.out.print(i); // Row number
-//		  for (int j = 0; j < 24; j++) { // The y coordinate
-//			  System.out.print(boardASCII[j][i] + " ");
-//		  }
-//
-//	  }
-//	  System.out.println();
+  public boolean getRestart() {
+	  return restart;
+  }
+
+  public void setRestart(boolean b) {
+	  restart = b;
   }
 
   public void updateBoard() {
@@ -174,7 +171,7 @@ public class Board
 			  }
 		  }
 		  else {
-			  boardButtons[arrayPosition].setText(p.getPos().getType());
+			  boardButtons[arrayPosition].setText(p.getPlayerName());
 			  boardButtons[arrayPosition].setBackground(p.getColor());
 		  }
 	  }

@@ -22,6 +22,7 @@ public class Player {
   private Color playerColor;
   private String targetItem;
   private String targetCharacter;
+  private String playerName;
   private int moves;
   public boolean actionMade;
 
@@ -94,6 +95,14 @@ public class Player {
 
   public boolean getIsOut() {
 	  return isOut;
+  }
+
+  public void setPlayerName(String s) {
+	  playerName = s;
+  }
+
+  public String getPlayerName() {
+	  return playerName.toUpperCase();
   }
 
   public String getRoom() {
